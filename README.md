@@ -1,22 +1,4 @@
-# Project Title
-
-Front-End Development Assignment 2 - eCommerce Online Platform (MokeSell)
-
-## Table of Contents
-
-- [About the Project](#about-the-project)
-  - [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-- [Acknowledgments](#acknowledgments)
-
----
+# Front-End Development Assignment 2 - eCommerce Online Platform (MokeSell)
 
 ## About the Project
 
@@ -37,12 +19,3 @@ The features we plan to implement are:
 - [Technology/Framework 3](https://example.com)
 
 > You can list the major libraries, frameworks, or tools used to create your project.
-
----
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing.
-
-### Prerequisites
-
