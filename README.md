@@ -14,8 +14,7 @@ The features we plan to implement are:
 
 ### Built With
 
-- [Technology/Framework 1](https://example.com)
-- [Technology/Framework 2](https://example.com)
-- [Technology/Framework 3](https://example.com)
-
-> You can list the major libraries, frameworks, or tools used to create your project.
+- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [RestDB](https://restdb.io/)
