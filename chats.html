@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chats</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lato', sans-serif;
+        }
+
+        body {
+            background-color: #f1f1f1;
+        }
+
+        .chat-container {
+            display: flex;
+            width: 80%;
+            height: 85vh;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin: 100px auto;
+        }
+
+        .chat-sidebar {
+            width: 30%;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .chat-sidebar h3 {
+            color: #fff;
+            padding: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .chat-listing {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            justify-content: space-between;
+        }
+        .chat-listing.active {
+            background: #f1f1f1;
+        }
+        .chat-listing:hover {
+            background: #f9f9f9;
+        }
+
+        .chat-listing img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .chat-details {
+            flex: 1;
+            margin-left: 15px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .chat-details span {
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            letter-spacing: 0.9px;
+        }
+        .chat-details .price {
+            font-size: 14px;
+            color: gray;
+            margin-top: 3px;
+            letter-spacing: 0.9px;
+        }
+        .listing-img{
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .chat-heading,
+        .chat-header {
+            background: #0F2658;
+            color: white;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .chat-header span{
+            letter-spacing: 1px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .chat-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .listing-details {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        .listing-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .user-info img{
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .listing-info {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            justify-content: space-between;
+        }
+        .user-info img{
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .listing-info img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+        .make-offer-btn {
+            background: #FD5F5F;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 20px;
+            letter-spacing: 0.9px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #fff;
+        }
+        .chat-messages p{
+            letter-spacing: 0.9px;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #eee;
+            width: 100%;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #send-message {
+            color: #0F2658;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+    <header>
+        <div class="header-top">
+            <div class="header-top-container">
+
+                <div class="header-contact">
+                    <span>(+65)</span>
+                    <span>Singapore</span>
+                </div>
+                <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
+
+                <a href="/login/login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-logo">
+                <h2>Moke<span>Sell</span></h2>
+            </div>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/products.html" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">List</a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <input type="text" placeholder="Search..." class="form-input">
+                    <i class='bx bx-search-alt-2' ></i>
+                </div>
+                <div class="header-user-actions">
+                    <a href="wishlist.html" class="header-action-btn">
+                        <i class='bx bxs-heart' style="color: red;"></i>
+                        <span class="count">3</span>
+                    </a>
+                    <a href="chats.html" class="header-action-btn">
+                        <i class='bx bx-message-square-dots' style="color: black;"></i>
+                        <span class="count">3</span>
+                    </a>
+                </div>
+                <div class="header-menu">
+                    <i class='bx bx-menu'></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="chat-container">
+            <div class="chat-sidebar">
+                <div class="chat-heading">
+                    <h3>Inbox</h3>
+                </div>
+                <div id="chat-listings">
+                    <div class="chat-listing">
+                        <img src="/images/pink stussy.webp" alt="User">
+                        <div class="chat-details">
+                            <span>Nike Shoes</span>
+                            <span class="price">$50 - john_doe</span>
+                        </div>
+                    </div>
+                    <div class="chat-listing">
+                        <img src="/images/aj1 fragment.webp" alt="User">
+                        <div class="chat-details">
+                            <span>iPhone 13</span>
+                            <span class="price">$900 - tech_guy</span>
+                        </div>
+                        <img class="listing-img" src="/images/bmw m4.webp" alt="Listing">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-box">
+                <div class="chat-header">
+                    <div class="user-info">
+                        <img src="/images/pink stussy.webp" alt="User">
+                        <span>john_doe</span>
+                    </div>
+                </div>
+                <div class="listing-info">
+                    <div class="listing-details">
+                        <img src="/images/aj1 fragment.webp" alt="Listing">
+                        <span class="listing-title">Nike Shoes - $50</span>
+                    </div>
+                    <button class="make-offer-btn">Make Offer</button>
+                </div>
+                <div class="chat-messages">
+                    <p>Welcome to MokeSell chat. Select a listing to start messaging.</p>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="message-input" placeholder="Type your message...">
+                    <button id="send-message">Send</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
