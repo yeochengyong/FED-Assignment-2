@@ -12,8 +12,12 @@ The features we plan to implement are:
 - User ratings and reviews, displaying user ratings and reviews to built trust in the marketplace.
 
 
+## APIs
+- Made the account signup/login feature working using restdb api to create a database to store and fetch user's name, email and password.
+
 ### Built With
 
 - [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [RestDB] (https://restdb.io/)
