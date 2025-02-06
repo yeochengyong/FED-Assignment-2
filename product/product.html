@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="product.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-logo">
+            <h2>Moke<span>Sell</span></h2>
+        </div>
+
+        <div class="nav-menu" id="nav-menu">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/products.html" class="nav-link">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">List</a>
+                </li>
+            </ul>
+            <div class="header-search">
+                <input type="text" placeholder="Search..." class="form-input">
+                <i class='bx bx-search-alt-2' ></i>
+            </div>
+            <div class="header-user-actions">
+                <a href="wishlist.html" class="header-action-btn">
+                    <i class='bx bxs-heart' style="color: red;"></i>
+                    <span class="count">3</span>
+                </a>
+                <a href="chats.html" class="header-action-btn">
+                    <i class='bx bx-message-square-dots' style="color: white;"></i>
+                    <span class="count">3</span>
+                </a>
+            </div>
+            <div class="header-menu">
+                <i class='bx bx-menu' style="color: white;"></i>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="product-container">
+            <!-- Left: Product Images -->
+            <div class="product-image-container">
+                <img id="main-product-image" src="" alt="Product Image">
+            </div>
+    
+            <!-- Right: Product Details -->
+            <div class="product-details">
+                <h1 id="product-title" class="product-title">Loading...</h1>
+                <p id="product-description" class="product-description">Loading...</p>
+                <p><strong>Category:</strong> <span id="product-category"></span></p>
+                <p class="product-price" id="product-price"></p>
+    
+                <!-- Seller Info -->
+                <div class="seller-info">
+                    <p class="seller-name">Listed by <span id="seller-name">Loading...</span></p>
+                </div>
+    
+                <!-- Buttons -->
+                <div class="product-buttons">
+                    <div class="button chat-button">Chat</div>
+                    <div class="button offer-button">Make Offer</div>
+                </div>
+    
+                <!-- Extra Images -->
+                <div id="extra-images" class="extra-images-container"></div>
+            </div>
+        </div>
+    </main>    
+    <script src="product.js"></script>
+</body>
+</html>

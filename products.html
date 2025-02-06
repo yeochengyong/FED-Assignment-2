@@ -19,7 +19,7 @@
                 </div>
                 <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
 
-                <a href="login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
+                <a href="/login/login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
             </div>
         </div>
 
@@ -126,83 +126,18 @@
             </div>
             <div class="tab-items">
                 <div class="tab-item active-tab">
-                    <div class="grid">
-
-                        <div class="product-item" onclick="openProductPage(1)">
-                            <div class="product-banner">
-                                <a href="#" class="product-images">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <span class="product-category">Clothing</span>
-                                <h3 class="product-title">Brazil Jersey</h3>
-                                <div class="product-price flex">
-                                    <span class="new-price">$199</span>
-                                </div>
-                            </div>
+                    <div class="products-container">
+                        <h3 class="section-title"><span>Featured</span> Listings</h3>
+                        <div class="grid"> 
+                            <!-- Listings will be dynamically inserted here -->
                         </div>
-
-                        <div class="product-item" onclick="openProductPage(2)">
-                            <div class="product-banner">
-                                <a href="#" class="product-images">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <span class="product-category">Clothing</span>
-                                <h3 class="product-title">Brazil Jersey</h3>
-                                <div class="product-price flex">
-                                    <span class="new-price">$199</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="product-item" onclick="openProductPage(3)">
-                            <div class="product-banner">
-                                <a href="#" class="product-images">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <span class="product-category">Clothing</span>
-                                <h3 class="product-title">Brazil Jersey</h3>
-                                <div class="product-price flex">
-                                    <span class="new-price">$199</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="product-item" onclick="openProductPage(4)">
-                            <div class="product-banner">
-                                <a href="#" class="product-images">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
-                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <span class="product-category">Clothing</span>
-                                <h3 class="product-title">Brazil Jersey</h3>
-                                <div class="product-price flex">
-                                    <span class="new-price">$199</span>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
-    <script>
-        function openProductPage(productId) {
-            window.location.href = `product.html?id=${productId}`;
-        }
-    </script>
 </body>
 </html>

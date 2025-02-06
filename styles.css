@@ -366,7 +366,7 @@ img{
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 20px; /* Adjust spacing between items */
+    gap: 20px; /* Adjust spacing */
     justify-content: center;
     max-width: 1300px;
     margin: auto;
@@ -379,7 +379,7 @@ img{
     max-width: 1300px;
     margin: auto;
 }
-.product-item{
+.product-item {
     border: 1px solid #ddd;
     border-radius: 12px;
     background: #fff;
@@ -389,41 +389,23 @@ img{
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 .product-item:hover {
-    transform: scale(1.01);  /* Increases size slightly */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);  /* Adds a soft shadow */
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
-.product-images{
+.product-images {
     position: relative;
     display: block;
     width: 100%;
 }
-.product-banner{
-    padding: 0.625rem 0.75rem 0.75rem;
-    position: relative;
-}
-.product-action{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    column-gap: 0.5rem;
-}
-.product-img{
+.product-img {
     width: 100%;
+    transition: opacity 0.3s ease-in-out;
 }
-.product-img.hover{
+.product-img.hover {
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0;
-}
-.product-banner:hover .product-img.default {
-    opacity: 0;  /* Hides first image when hovering */
-}
-
-.product-banner:hover .product-img.hover {
-    opacity: 1;  /* Shows second image when hovering */
 }
 .tab-item:not(.active-tab){
     display: none;
