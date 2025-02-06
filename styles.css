@@ -1,0 +1,430 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=League+Spartan:wght@100..900&display=swap');
+
+/* Universal */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato' sans-serif;
+}
+body{
+    background-color: #f1f1f1;
+}
+ul{
+list-style: none;
+}
+a{
+    text-decoration: none;
+}
+p{
+    line-height: 1.5rem;
+}
+img{
+    max-width: 100%;
+}
+
+/* Header & Nav */
+.header-top{
+    background-color: #0F2658;
+    border-bottom: 1px solid black;
+    padding-block: 0.875rem;
+}
+.header-top-container{
+    max-width: 1320px;
+    margin-inline: auto;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header-contact span:first-child{
+    margin-right: 1rem;
+}
+.header-top-action i{
+    position: relative;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+}
+.header-contact span,
+.header-motto,
+.header-top-action{
+    font-size: 0.85rem;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #fff;
+}
+.nav,
+.nav-menu,
+.nav-list,
+.header-user-actions{
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    padding-left: 12px;
+}
+.nav{
+    background-color: #f1f1f1;
+    justify-content: space-between;
+    column-gap: 2rem;
+    padding: 0.8rem;
+}
+.nav-logo h2 {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #FD5F5F; 
+    display: inline; 
+    margin-left: 5rem
+}
+.nav-logo h2 span {
+    color: red; 
+    letter-spacing: 1px;
+}
+
+.nav-menu{
+    width: 100%;
+    margin-left: 2.5rem;
+}
+.nav-list{
+    margin-right: auto;
+    column-gap: 2.5rem;
+}
+.nav-link{
+    color: #0F2658;
+    font-weight: 550;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.9px;
+    transition: all 0.2s;
+}
+.header-search{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.header-search i{
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+}
+.form-input{
+    border: 1px solid black;
+    padding: 10px 35px 10px 15px;
+    padding-inline: 1rem;
+    height: 45px;
+    border-radius: 0.25rem;
+    font-size: 12px;
+    letter-spacing: 1px;
+    width: 250px;
+}
+.header-search .form-input{
+    border: 1px solid black;
+}
+.active-link,
+.nav-link:hover{
+    color: #FD5F5F;
+}
+.header-user-actions a i{
+    font-size: 24px;
+    padding: 0.5rem;
+}
+.header-action-btn{
+    position: relative;
+    display: inline-block;  
+}
+.header-action-btn .count{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%); 
+    color: #0F2658;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+}
+.header-menu{
+    margin-left: 1rem;
+}
+.header-menu i{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Home Page */
+.home-container {
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Aligns content and image vertically */
+    justify-content: space-between; /* Ensures spacing between content and image */
+    margin-top: 100px;
+    margin-left: 100px;
+    max-width: 1200px;
+    margin-bottom: 200px;
+}
+.home-content {
+    flex: 1; /* Takes up available space on the left */
+    max-width: 50%; /* Restricts width of text */
+    margin-left: 100px;
+}
+.home-subtitle{
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    display: block;
+    color: black;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 1.1px;
+}
+.home-description{
+    font-family: 'League Spartan', sans-serif;
+    color: gray;
+    margin-block: .5rem 2rem;
+    font-size: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+.home-title{
+    font-size: 2.7rem;
+    font-weight: 700;
+    line-height: 1.4;
+    font-family: 'Lato', sans-serif;
+    color: #0F2658;
+    letter-spacing: 1px;
+}
+.home-title span{
+    display: block;
+    color: #143F9A;
+    font-size: 3rem;
+    letter-spacing: 1px;
+}
+.home-img{
+    flex: 1;
+    height: 600px;
+    width: 600px;
+    border: 1px solid black;
+}
+.btn{
+    display: inline-block;
+    background-color: #0F2658;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    padding-inline: 1.75rem;
+    height: 49px;
+    line-height: 49px;
+    border-radius: .25rem;
+    letter-spacing: 1.2px;
+    border: 1px solid #0F2658;
+}
+.btn:hover{
+    background-color: transparent;
+    color: #0F2658;
+}
+
+/* Categories*/
+.categories-container{
+    max-width: 1300px;
+    margin: auto;
+    position: relative;
+    padding: 4rem 0;
+    overflow: hidden;
+}
+.section-title {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0F2658;
+    text-align: center;
+    margin-top: 3.5rem; /* Increased distance from navbar */
+    margin-bottom: 3rem; /* Increased distance from images */
+    letter-spacing: 1px;
+}
+.section-title span{
+    color: #143F9A;
+}
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #fff;
+    padding: 1rem; /* Increased padding for better spacing */
+    border-radius: 15px;
+    border: 2px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 180px; /* Increased size */
+    height: 230px; /* Increased size */
+    margin: 0 5px; /* Increased gap between items */
+    flex-shrink: 0;
+}
+.category-image-container {
+    width: 170px; /* Fixed width */
+    height: 170px; /* Fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+    border-radius: 12px;
+    padding: 8px;
+}
+/* Category Image - Ensures consistent size */
+.category-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+}
+.category-title{
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 0.9px;
+    margin-top: 10px;
+}
+.swiper-slide{
+    display: flex;
+    justify-content: center;
+    width: 190px;
+    flex-shrink: 0;
+}
+.swiper{
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 2rem;
+}
+.swiper-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after{
+    content: '';
+}
+.swiper-button-next,
+.swiper-button-prev{
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: black;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.swiper-pagination {
+    display: none !important;
+}
+.swiper-button-prev {
+    left: -25px;
+}
+.swiper-button-next {
+    right: -25px;
+}
+
+/* Products */
+.tab-btns{
+    display: flex;
+    column-gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+.tab-btn{
+    background-color: #0F2658;
+    color: #fff;
+    padding: 1rem 1.25rem 0.875rem;
+    border-radius: 0.25rem;
+    border: 1px solid #0F2658;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+.tab-btn.active-tab{
+    color: #0F2658;
+    background-color: #fff;
+}
+.tab-items {
+    width: 100%;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 20px; /* Adjust spacing between items */
+    justify-content: center;
+    max-width: 1300px;
+    margin: auto;
+}
+.products-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px;
+    margin: auto;
+}
+.product-item{
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.product-item:hover {
+    transform: scale(1.01);  /* Increases size slightly */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);  /* Adds a soft shadow */
+}
+.product-images{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.product-banner{
+    padding: 0.625rem 0.75rem 0.75rem;
+    position: relative;
+}
+.product-action{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    column-gap: 0.5rem;
+}
+.product-img{
+    width: 100%;
+}
+.product-img.hover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+.product-banner:hover .product-img.default {
+    opacity: 0;  /* Hides first image when hovering */
+}
+
+.product-banner:hover .product-img.hover {
+    opacity: 1;  /* Shows second image when hovering */
+}
+.tab-item:not(.active-tab){
+    display: none;
+}

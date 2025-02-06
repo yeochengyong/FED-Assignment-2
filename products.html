@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="header-top-container">
+
+                <div class="header-contact">
+                    <span>(+65)</span>
+                    <span>Singapore</span>
+                </div>
+                <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
+
+                <a href="login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-logo">
+                <h2>Moke<span>Sell</span></h2>
+            </div>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="home.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">List</a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <input type="text" placeholder="Search..." class="form-input">
+                    <i class='bx bx-search-alt-2' ></i>
+                </div>
+                <div class="header-user-actions">
+                    <a href="wishlist.html" class="header-action-btn">
+                        <i class='bx bxs-heart' style="color: red;"></i>
+                        <span class="count">3</span>
+                    </a>
+                    <a href="chats.html" class="header-action-btn">
+                        <i class='bx bx-message-square-dots' style="color: black;"></i>
+                        <span class="count">3</span>
+                    </a>
+                </div>
+                <div class="header-menu">
+                    <i class='bx bx-menu'></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <h3 class="section-title"><span>Popular</span> Categories</h3>
+        <div class="categories-container swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/aj1 fragment.webp" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Sneakers</h3>
+                </div>
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/pink stussy.webp" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Clothing</h3>
+                </div>
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/ap watch.webp" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Watches</h3>
+                </div>
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/airpods pro max.jpg" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Audio Devices</h3>
+                </div>
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/iphone 16.webp" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Electronics</h3>
+                </div>
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/bmw m4.webp" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Cars</h3>
+                </div>
+                <div class="swiper-slide category-item">
+                    <div class="category-image-container">
+                        <img src="/images/jpg lmlp.webp" alt="" class="category-img">
+                    </div>
+                    <h3 class="category-title">Fragrance</h3>
+                </div>
+            </div>            
+            <div class="swiper-button-next">
+                <i class='bx bx-chevron-right' ></i>
+            </div>
+            <div class="swiper-button-prev">
+                <i class='bx bx-chevron-left' ></i>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="products-container" id="products-list">
+            <div class="tab-btns">
+                <span class="tab-btn">Featured</span>
+                <span class="tab-btn">Trending</span>
+                <span class="tab-btn">Latest</span>
+            </div>
+            <div class="tab-items">
+                <div class="tab-item active-tab">
+                    <div class="grid">
+
+                        <div class="product-item" onclick="openProductPage(1)">
+                            <div class="product-banner">
+                                <a href="#" class="product-images">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <span class="product-category">Clothing</span>
+                                <h3 class="product-title">Brazil Jersey</h3>
+                                <div class="product-price flex">
+                                    <span class="new-price">$199</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-item" onclick="openProductPage(2)">
+                            <div class="product-banner">
+                                <a href="#" class="product-images">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <span class="product-category">Clothing</span>
+                                <h3 class="product-title">Brazil Jersey</h3>
+                                <div class="product-price flex">
+                                    <span class="new-price">$199</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-item" onclick="openProductPage(3)">
+                            <div class="product-banner">
+                                <a href="#" class="product-images">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <span class="product-category">Clothing</span>
+                                <h3 class="product-title">Brazil Jersey</h3>
+                                <div class="product-price flex">
+                                    <span class="new-price">$199</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-item" onclick="openProductPage(4)">
+                            <div class="product-banner">
+                                <a href="#" class="product-images">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img default">
+                                    <img src="/images/brazil jersey.webp" alt="" class="product-img hover">
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <span class="product-category">Clothing</span>
+                                <h3 class="product-title">Brazil Jersey</h3>
+                                <div class="product-price flex">
+                                    <span class="new-price">$199</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function openProductPage(productId) {
+            window.location.href = `product.html?id=${productId}`;
+        }
+    </script>
+</body>
+</html>
