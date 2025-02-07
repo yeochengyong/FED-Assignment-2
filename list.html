@@ -17,7 +17,6 @@
                     <span>Singapore</span>
                 </div>
                 <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
-
                 <a href="/login/login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
             </div>
         </div>
@@ -64,14 +63,9 @@
     </header>
     <main class="list-container">
         <div class="upload-section">
-            <label for="image-upload" class="image-upload-box">
-                <input type="file" id="image-upload" multiple accept="image/*" hidden>
-                <div class="upload-box-content">
-                    <span class="upload-icon"><i class='bx bx-image-add'></i></span>
-                    <button class="upload-button">Upload Photos</button>
-                    <p>(Drag photos here)</p>
-                </div>
-            </label>
+            <input type="file" id="image-upload" accept="image/*" hidden>
+            <button class="upload-button" id="upload-button" type="button">Upload Photo</button>
+            <div id="preview-container"></div>
         </div>
         <div class="details-section">
             <h2>List Your Product</h2>
@@ -101,20 +95,134 @@
         </div>
     </main>
 
+    <!-- Supabase & Other Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById('image-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            if (files.length > 10) {
-                alert("You can upload up to 10 images only.");
-                event.target.value = ""; // Reset the input
-            }
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://mtmrilvgybiwyjgqttqr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10bXJpbHZneWJpd3lqZ3F0dHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4Mjg4OTEsImV4cCI6MjA1NDQwNDg5MX0.1nfCnZmh0jFR9xttubx5b8iaq7awEYPECXLZJNjpHPg';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- UPLOAD SECTION MODIFICATIONS ---
+        // Instead of drag-and-drop, we use a dedicated button.
+        document.getElementById('upload-button').addEventListener('click', function () {
+            document.getElementById('image-upload').click();
         });
 
-        document.getElementById('listing-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert("Listing submitted successfully!");
-            this.reset();
+        // When a file is selected, show a preview (or error if the file isn’t an image)
+        document.getElementById('image-upload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('preview-container');
+            previewContainer.innerHTML = ''; // Clear any previous preview
+
+            if (!file) {
+            previewContainer.innerHTML = '<p style="color: red;">No file selected.</p>';
+            return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+            previewContainer.innerHTML = '<p style="color: red;">Please select a valid image file.</p>';
+            event.target.value = "";
+            return;
+            }
+
+            // Show preview using FileReader
+            const reader = new FileReader();
+            reader.onload = function (e) {
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width:100%; max-height:200px; margin-top:10px;">`;
+            };
+            reader.readAsDataURL(file);
         });
+
+        // --- Updated uploadImage Function ---
+        async function uploadImage(file) {
+            const fileName = `${Date.now()}-${file.name}`;
+            const { data, error } = await supabaseClient.storage
+            .from('product-images')
+            .upload(fileName, file);
+
+            if (error) {
+            console.error("Error uploading image:", error);
+            return null;
+            }
+
+            const { publicURL, error: urlError } = supabaseClient.storage
+            .from('product-images')
+            .getPublicUrl(fileName);
+
+            if (urlError) {
+            console.error("Error getting public URL:", urlError);
+            return null;
+            }
+
+            return publicURL;
+        }
+
+        // --- Form Submission Handler for Create Listing ---
+        document.getElementById('listing-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            // Gather form data
+            const title = document.getElementById('product-name').value.trim();
+            const category = document.getElementById('category').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const price = parseFloat(document.getElementById('price').value);
+            const condition = "New"; // Default value
+
+            // Check if a file was selected
+            const imageInput = document.getElementById('image-upload');
+            if (imageInput.files.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Submission Failed',
+                text: 'Please upload an image for your listing.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+            }
+
+            const file = imageInput.files[0];
+            const image_url = await uploadImage(file);
+
+
+            // Insert the new listing into the "listings" table.
+            const { data, error } = await supabaseClient
+            .from('listings')
+            .insert([
+                {
+                title: title,
+                category: category,
+                description: description,
+                price: price,
+                condition: condition,
+                image_url: image_url
+                }
+            ]);
+
+            if (error) {
+            console.error("Error inserting listing:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Submission Failed',
+                text: 'Error submitting listing: ' + error.message,
+                confirmButtonColor: '#d33'
+            });
+            } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Listing Submitted!',
+                text: 'Your listing has been added.',
+                confirmButtonColor: '#3085d6'
+            });
+            // Reset the form and preview.
+            document.getElementById('listing-form').reset();
+            imageInput.value = "";
+            document.getElementById('preview-container').innerHTML = "";
+            }
+        });
+    </script>
+
     </script>
 
     <style>
@@ -215,5 +323,6 @@
             background: red;
         }
     </style>
+    <script src="script.js"></script>
 </body>
 </html>

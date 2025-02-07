@@ -405,7 +405,8 @@ cursor: pointer;
     margin-top: 10px;
 }
 
-.product-name {
+.product-title {
+    color: black;
     font-size: 16px;
     font-weight: bold;
     margin: 5px 0;
