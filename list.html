@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="header-top-container">
+
+                <div class="header-contact">
+                    <span>(+65)</span>
+                    <span>Singapore</span>
+                </div>
+                <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
+
+                <a href="/login/login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-logo">
+                <h2>Moke<span>Sell</span></h2>
+            </div>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/products.html" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">List</a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <input type="text" placeholder="Search..." class="form-input">
+                    <i class='bx bx-search-alt-2' ></i>
+                </div>
+                <div class="header-user-actions">
+                    <a href="wishlist.html" class="header-action-btn">
+                        <i class='bx bxs-heart' style="color: red;"></i>
+                        <span class="count">3</span>
+                    </a>
+                    <a href="chats.html" class="header-action-btn">
+                        <i class='bx bx-message-square-dots' style="color: black;"></i>
+                        <span class="count">3</span>
+                    </a>
+                </div>
+                <div class="header-menu">
+                    <i class='bx bx-menu'></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="list-container">
+        <div class="upload-section">
+            <label for="image-upload" class="image-upload-box">
+                <input type="file" id="image-upload" multiple accept="image/*" hidden>
+                <div class="upload-box-content">
+                    <span class="upload-icon"><i class='bx bx-image-add'></i></span>
+                    <button class="upload-button">Upload Photos</button>
+                    <p>(Drag photos here)</p>
+                </div>
+            </label>
+        </div>
+        <div class="details-section">
+            <h2>List Your Product</h2>
+            <form id="listing-form">
+                <label for="product-name">Product Name</label>
+                <input type="text" id="product-name" name="product-name" required>
+
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="Sneakers">Sneakers</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Watches">Watches</option>
+                    <option value="Fragrance">Fragrance</option>
+                    <option value="Others">Others</option>
+                </select>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+
+                <label for="price">Price ($)</label>
+                <input type="number" id="price" name="price" min="0" step="0.01" required>
+
+                <button type="submit" class="submit-button">Submit Listing</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('image-upload').addEventListener('change', function(event) {
+            const files = event.target.files;
+            if (files.length > 10) {
+                alert("You can upload up to 10 images only.");
+                event.target.value = ""; // Reset the input
+            }
+        });
+
+        document.getElementById('listing-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert("Listing submitted successfully!");
+            this.reset();
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+        }
+        .list-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 900px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+        }
+
+        .upload-section {
+            flex: 1;
+            background: #d1ede5;
+            border: 2px dashed #008000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .upload-box-content {
+            text-align: center;
+        }
+        .upload-icon i{
+            font-size: 2rem;
+            align-items: center;
+        }
+        .upload-box-content p{
+            margin-top: 10px;
+        }
+        .upload-button {
+            background: #FD5F5F;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .upload-button:hover{
+            background: red;
+        }
+
+        .details-section {
+            flex: 2;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            color: #0F2658;
+        }
+        .details-section h2{
+            margin-top: -10px;
+            margin-bottom: 12px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-button {
+            background: #FD5F5F;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 0.8px;
+        }
+
+        .submit-button:hover {
+            background: red;
+        }
+    </style>
+</body>
+</html>

@@ -65,58 +65,37 @@
     </header>
     <main>
         <h3 class="section-title"><span>Popular</span> Categories</h3>
-        <div class="categories-container swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/aj1 fragment.webp" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Sneakers</h3>
+        <div class="categories-container">
+            <div class="category-item" onclick="navigateToCategory('sneakers.html')">
+                <div class="category-image-container">
+                    <img src="/images/aj1 fragment.webp" alt="Sneakers" class="category-img">
                 </div>
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/pink stussy.webp" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Clothing</h3>
-                </div>
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/ap watch.webp" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Watches</h3>
-                </div>
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/airpods pro max.jpg" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Audio Devices</h3>
-                </div>
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/iphone 16.webp" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Electronics</h3>
-                </div>
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/bmw m4.webp" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Cars</h3>
-                </div>
-                <div class="swiper-slide category-item">
-                    <div class="category-image-container">
-                        <img src="/images/jpg lmlp.webp" alt="" class="category-img">
-                    </div>
-                    <h3 class="category-title">Fragrance</h3>
-                </div>
-            </div>            
-            <div class="swiper-button-next">
-                <i class='bx bx-chevron-right' ></i>
+                <h3 class="category-title">Sneakers</h3>
             </div>
-            <div class="swiper-button-prev">
-                <i class='bx bx-chevron-left' ></i>
+            <div class="category-item" onclick="navigateToCategory('clothing.html')">
+                <div class="category-image-container">
+                    <img src="/images/pink stussy.webp" alt="Clothing" class="category-img">
+                </div>
+                <h3 class="category-title">Clothing</h3>
             </div>
-            <div class="swiper-pagination"></div>
+            <div class="category-item" onclick="navigateToCategory('watches.html')">
+                <div class="category-image-container">
+                    <img src="/images/iphone 16.webp" alt="Watches" class="category-img">
+                </div>
+                <h3 class="category-title">Electronics</h3>
+            </div>
+            <div class="category-item" onclick="navigateToCategory('audio-devices.html')">
+                <div class="category-image-container">
+                    <img src="/images/ap watch.webp" alt="Audio Devices" class="category-img">
+                </div>
+                <h3 class="category-title">Watches</h3>
+            </div>
+            <div class="category-item" onclick="navigateToCategory('electronics.html')">
+                <div class="category-image-container">
+                    <img src="/images/jpg lmlp.webp" alt="Electronics" class="category-img">
+                </div>
+                <h3 class="category-title">Fragrance</h3>
+            </div>
         </div>
         <div class="products-container" id="products-list">
             <div class="tab-btns">
