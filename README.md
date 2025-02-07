@@ -14,10 +14,12 @@ The features we plan to implement are:
 
 ## APIs
 - Made the account signup/login feature working using restdb api to create a database to store and fetch user's name, email and password.
+- Made the listings displayed in the products and product html pages fetched from the database listings table. 
+- Made the chat function allowing users to communicate in real time with sellers / other users.
 
 ### Built With
 
 - [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [RestDB] (https://restdb.io/)
+- [Supabase](https://supabase.com/)

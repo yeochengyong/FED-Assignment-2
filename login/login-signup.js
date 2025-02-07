@@ -1,148 +1,108 @@
+const SUPABASE_URL = 'https://mtmrilvgybiwyjgqttqr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10bXJpbHZneWJpd3lqZ3F0dHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4Mjg4OTEsImV4cCI6MjA1NDQwNDg5MX0.1nfCnZmh0jFR9xttubx5b8iaq7awEYPECXLZJNjpHPg';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// DOM elements for toggling between login and signup forms
 const container = document.querySelector('.log-container');
 const registerLink = document.querySelector('.register-link a');
 const loginLink = document.querySelector('.login-link a');
 
 // Toggle between login and register forms
 registerLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    container.classList.add('active');
+  e.preventDefault();
+  container.classList.add('active');
 });
 
 loginLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    container.classList.remove('active');
+  e.preventDefault();
+  container.classList.remove('active');
 });
 
-// Helper function to display success message
-function displaySuccessMessage(message) {
-    if (document.querySelector('.success-message')) return;
+async function SignUp(event) {
+event.preventDefault();
 
-    // Create and style the success message
-    const successBox = document.createElement('div');
-    successBox.className = 'success-message';
-    successBox.innerText = message;
+// Get values from the sign-up form
+const form = event.target;
+const name = form.querySelector('input[placeholder="Name"]').value.trim();
+const email = form.querySelector('input[placeholder="Email"]').value.trim();
+const password = form.querySelector('input[placeholder="Password"]').value;
 
-    document.body.appendChild(successBox);
+const { data, error } = await supabaseClient
+    .from('accounts')
+    .insert([{ name, email, password }]);
 
-    setTimeout(() => {
-        successBox.remove();
-    }, 3000);
-}
-
-// Successful login
-function notifyLogin() {
-    displaySuccessMessage("You have successfully logged in!");
-    setTimeout(() => {
-        window.location.href = '/index.html';
-    }, 3000);
+if (error) {
+    console.error('Error signing up:', error);
+    Swal.fire({
+    icon: 'error',
+    title: 'Sign Up Failed',
+    text: 'Error signing up: ' + error.message,
+    confirmButtonColor: '#3085d6'
+    });
+    return false;
+} else {
+    Swal.fire({
+    icon: 'success',
+    title: 'Sign Up Successful!',
+    text: 'You can now log in.',
+    confirmButtonColor: '#3085d6'
+    }).then(() => {
+    form.reset();
+    });
     return true;
 }
+}
 
-// Successful sign-up
-function notifySignUp() {
-    displaySuccessMessage("You have successfully signed up!");
-    setTimeout(() => {
+async function Login(event) {
+    event.preventDefault();
+  
+    // Get values from the login form
+    const form = event.target;
+    const email = form.querySelector('input[type="email"]').value.trim();
+    const password = form.querySelector('input[type="password"]').value;
+  
+    const { data, error } = await supabaseClient
+      .from('accounts')
+      .select('*')
+      .eq('email', email)
+      .eq('password', password)
+      .single();
+  
+    if (error || !data) {
+      console.error('Error logging in:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid email or password.',
+        confirmButtonColor: '#d33'
+      });
+      return false;
+    } else {
+      // Save the user information to localStorage
+      localStorage.setItem('loggedInUser', JSON.stringify(data));
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful!',
+        text: 'Welcome back!',
+        confirmButtonColor: '#3085d6'
+      }).then(() => {
+        // Redirect to the homepage
         window.location.href = '/index.html';
-    }, 3000);
-    return true;
-}
-
-// login api call
-async function login(email, password) {
-    const BASE_URL = 'https://fedassmt2-9c70.restdb.io/rest/userdb';
-    const API_KEY = '678f6ed4718b1a5fb3f81480';
-
-    try {
-        const response = await fetch(`${BASE_URL}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-apikey': API_KEY
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-
-        const users = await response.json();
-        const user = users.find(u => u.email === email && u.password === password);
-
-        if (user) {
-            notifyLogin();
-        } else {
-            const errorMessage = document.getElementById('errorMessage');
-            if (errorMessage) {
-                errorMessage.innerText = 'Invalid email or password';
-            } else {
-                alert('Invalid email or password');
-            }
-        }
-    } catch (error) {
-        console.error('Login error:', error);
-        const errorMessage = document.getElementById('errorMessage');
-        if (errorMessage) {
-            errorMessage.innerText = 'An error occurred. Please try again.';
-        } else {
-            alert('An error occurred. Please try again.');
-        }
+      });
+      return true;
     }
 }
 
-// sign up api call
-async function signUp(name, email, password) {
-    const BASE_URL = 'https://fedassmt2-9c70.restdb.io/rest/userdb';
-    const API_KEY = '678f6ed4718b1a5fb3f81480'; 
+document.addEventListener('DOMContentLoaded', () => {
+// Select the login and sign-up forms based on their container classes.
+const loginForm = document.querySelector('.login form');
+const signUpForm = document.querySelector('.register form');
 
-    if (!name || !email || !password) {
-        alert('Please fill in all the fields.');
-        return false;
+    if (loginForm) {
+        loginForm.addEventListener('submit', Login);
     }
-
-    try {
-        const response = await fetch(`${BASE_URL}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-apikey': API_KEY
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password
-            })
-        });
-
-        if (response.ok) {
-            notifySignUp();
-            return true; // allow form
-        } else {
-            throw new Error(`Error: ${response.status}`);
-        }
-    } catch (error) {
-        console.error('Sign-up error:', error);
-        alert('An error occurred during sign-up. Please try again.');
-        return false;
+    if (signUpForm) {
+        signUpForm.addEventListener('submit', SignUp);
     }
-}
-
-// sign up event listener
-document.querySelector('.form-box.register form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const name = document.querySelector('.form-box.register input[placeholder="Name"]').value.trim();
-    const email = document.querySelector('.form-box.register input[placeholder="Email"]').value.trim();
-    const password = document.querySelector('.form-box.register input[placeholder="Password"]').value.trim();
-
-    await signUp(name, email, password);
-});
-
-// login event listener
-document.querySelector('.form-box.login form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const email = document.querySelector('.form-box.login input[placeholder="Email"]').value.trim();
-    const password = document.querySelector('.form-box.login input[placeholder="Password"]').value.trim();
-
-    await login(email, password);
 });
