@@ -11,70 +11,54 @@ let currentUser = null;
 //Append a message to the chat messages container.
 
 function appendMessage(message) {
-    const chatMessagesContainer = document.querySelector('.chat-messages');
-    const messageElem = document.createElement('div'); // container for a message
-    messageElem.classList.add('message');
-  
-    // Use the logged-in user's name to determine message alignment and style.
-    if (currentUser && message.sender === currentUser.name) {
-      messageElem.classList.add('my-message'); // Style for messages from you
-    } else {
-      messageElem.classList.add('other-message'); // Style for messages from others
-    }
-  
-    // Create a sender element
-    const senderElem = document.createElement('div');
-    senderElem.classList.add('sender');
-    senderElem.textContent = message.sender;
-  
-    // Create a content element for the message text
-    const contentElem = document.createElement('div');
-    contentElem.classList.add('content');
-    contentElem.textContent = message.content;
-  
-    // Append sender and content to the message container
-    messageElem.appendChild(senderElem);
-    messageElem.appendChild(contentElem);
-  
-    // Append the styled message container to the chat messages container
-    chatMessagesContainer.appendChild(messageElem);
-  
-    // Automatically scroll to the bottom
-    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+  const chatMessagesContainer = document.querySelector('.chat-messages');
+  const messageElem = document.createElement('div');
+  messageElem.classList.add('message');
+
+  // Style the message based on whether it was sent by the current user.
+  if (currentUser && message.sender === currentUser.name) {
+    messageElem.classList.add('my-message');
+  } else {
+    messageElem.classList.add('other-message');
+  }
+
+  const senderElem = document.createElement('div');
+  senderElem.classList.add('sender');
+  senderElem.textContent = message.sender;
+
+  const contentElem = document.createElement('div');
+  contentElem.classList.add('content');
+  contentElem.textContent = message.content;
+
+  messageElem.appendChild(senderElem);
+  messageElem.appendChild(contentElem);
+  chatMessagesContainer.appendChild(messageElem);
+  chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
 }
 
-//Load all messages for a given chat/conversation.
+// Load all messages for a given chat conversation.
 async function loadMessages(chatId) {
   const { data, error } = await supabaseClient
     .from('messages')
     .select('*')
     .eq('chat_id', chatId)
     .order('created_at', { ascending: true });
-
   if (error) {
     console.error('Error loading messages:', error);
     return;
   }
-
-  // Clear the container and render each message
   const chatMessagesContainer = document.querySelector('.chat-messages');
   chatMessagesContainer.innerHTML = '';
   data.forEach(message => appendMessage(message));
 }
 
-//Subscribe to realtime message updates for the active chat.
-
+// Subscribe to realtime updates for a given chat.
 function subscribeToMessages(chatId) {
-  // If there's an existing subscription, unsubscribe first.
   if (messageSubscription) {
     messageSubscription.unsubscribe();
     messageSubscription = null;
   }
-
-  // Create a new channel for this chat.
   messageSubscription = supabaseClient.channel('realtime-messages-' + chatId);
-
-  // Listen for new INSERT events on the "messages" table for the specified chat_id.
   messageSubscription.on(
     'postgres_changes',
     {
@@ -89,138 +73,116 @@ function subscribeToMessages(chatId) {
   ).subscribe();
 }
 
-//Set up event listeners for each chat listing.
-function setupChatListings() {
-    const chatListings = document.querySelectorAll('.chat-listing');
-  
-    chatListings.forEach((listing, index) => {
-        // Ensure each listing has a unique data-chat-id.
-        if (!listing.dataset.chatId) {
-            listing.dataset.chatId = 'chat_' + index;
-        }
-  
-      listing.addEventListener('click', async () => {
-            // Mark the clicked listing as active.
-            document.querySelectorAll('.chat-listing').forEach(item =>
-            item.classList.remove('active')
-            );
-            listing.classList.add('active');
-    
-            const chatId = listing.dataset.chatId;
-            currentChatId = chatId;
-    
-            // --- Update Chat Header (Seller Info) ---
-            // Use the first image as the seller's image.
-            const sellerImgSrc = listing.querySelector('img').src;
-    
-            // Get the combined price and seller info text.
-            const priceElement = listing.querySelector('.chat-details .price');
-            let sellerName = 'Seller';
-            let productPrice = '';
-            if (priceElement) {
-            const priceText = priceElement.textContent;
-            // Expecting format like "$50 - john_doe"
-            if (priceText.indexOf(' - ') !== -1) {
-                const parts = priceText.split(' - ');
-                productPrice = parts[0].trim();
-                sellerName = parts[1].trim();
-            }
-            }
-    
-            // Update chat header with the seller's info.
-            document.querySelector('.chat-header .user-info img').src = sellerImgSrc;
-            document.querySelector('.chat-header .user-info span').textContent = sellerName;
-    
-            // --- Update Listing Info (Product Info) ---
-            // Assume the first span in .chat-details holds the product name.
-            const detailsSpans = listing.querySelectorAll('.chat-details span');
-            let productName = 'Product';
-            if (detailsSpans.length > 0) {
-            productName = detailsSpans[0].textContent.trim();
-            }
-    
-            // For product image, use the image with class "listing-img" if available.
-            const listingImgElem = listing.querySelector('.listing-img');
-            const productImgSrc = listingImgElem ? listingImgElem.src : sellerImgSrc;
-    
-            // Update the listing info in the chat-box.
-            document.querySelector('.listing-details img').src = productImgSrc;
-            // Display product name and price (if available).
-            document.querySelector('.listing-title').textContent = productName + (productPrice ? ' - ' + productPrice : '');
-    
-            // --- Load Chat Messages & Setup Realtime Subscription ---
-            await loadMessages(chatId);
-            subscribeToMessages(chatId);
-        });
-    });
-}
-
-//Handler for sending a message.
-
-async function sendMessage() {
-    const input = document.getElementById('message-input');
-    const messageText = input.value.trim();
-    if (!messageText || !currentChatId) return;
-  
-    // Use the logged-in user's email as the sender (or default to "Anonymous")
-    const sender = currentUser ? currentUser.name : 'Anonymous';
-
-    const messagePayload = {
-      chat_id: currentChatId,
-      sender: sender,
-      content: messageText,
-    };
-  
-    const { error } = await supabaseClient
-      .from('messages')
-      .insert([messagePayload]);
-  
-    if (error) {
-      console.error('Error sending message:', error);
-    }
-    input.value = ''; // Clear the input field
-  }
-
-//Retrieve the logged-in user info from localStorage.
+// Retrieve the logged-in user info from localStorage.
 function getLoggedInUser() {
   const storedUser = localStorage.getItem('loggedInUser');
   return storedUser ? JSON.parse(storedUser) : null;
 }
 
+// Set default chat header and listing info (before a chat is selected).
 function setDefaultChatInfo() {
-    // Set default seller info (chat header)
-    const defaultSellerImg = '/images/default-seller.png';
-    const defaultSellerName = 'Select a Chat';
-  
-    document.querySelector('.chat-header .user-info img').src = defaultSellerImg;
-    document.querySelector('.chat-header .user-info span').textContent = defaultSellerName;
-    
-    // Set default listing info (listing details)
-    const defaultProductImg = '/images/default-product.png';
-    const defaultListingTitle = 'No Listing Selected';
-  
-    document.querySelector('.listing-details img').src = defaultProductImg;
-    document.querySelector('.listing-title').textContent = defaultListingTitle;
+  const defaultSellerImg = '/images/default-seller.png';
+  const defaultSellerName = 'Select a Chat';
+  document.querySelector('.chat-header .user-info img').src = defaultSellerImg;
+  document.querySelector('.chat-header .user-info span').textContent = defaultSellerName;
+
+  const defaultProductImg = '/images/default-product.png';
+  const defaultListingTitle = 'No Listing Selected';
+  document.querySelector('.listing-details img').src = defaultProductImg;
+  document.querySelector('.listing-title').textContent = defaultListingTitle;
 }
 
-async function init() {
-    // Retrieve current user (from localStorage or Supabase)
-    const storedUser = localStorage.getItem('loggedInUser');
-    if (storedUser) {
-      currentUser = JSON.parse(storedUser);
-    } else {
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      currentUser = user;
+// ------------------------------
+// Dynamic Chat Listings Functions
+// ------------------------------
+
+// Fetch dynamic chat listings for the current user.
+// Here we query the messages table for messages sent by the current user and deduplicate by chat_id.
+async function fetchChatListings() {
+  if (!currentUser) return [];
+  const { data, error } = await supabaseClient
+    .from('messages')
+    .select('*')
+    .eq('sender', currentUser.name);
+  if (error) {
+    console.error("Error fetching chat listings:", error);
+    return [];
+  }
+  // Deduplicate by chat_id: keep the latest message for each chat.
+  const chatMap = {};
+  data.forEach(msg => {
+    if (!chatMap[msg.chat_id] || new Date(msg.created_at) > new Date(chatMap[msg.chat_id].created_at)) {
+      chatMap[msg.chat_id] = msg;
     }
-  
-    // Set default chat info before any listing is selected.
-    setDefaultChatInfo();
-  
-    // Setup chat listings event listeners.
-    setupChatListings();
+  });
+  return Object.values(chatMap);
 }
 
-// Chat event listeners
+// Display dynamic chat listings in the inbox.
+function displayChatListings(chats) {
+  const chatListingsContainer = document.getElementById('chat-listings');
+  chatListingsContainer.innerHTML = "";
+  if (!chats || chats.length === 0) {
+     chatListingsContainer.innerHTML = "";
+     return;
+  }
+  chats.forEach(chat => {
+    const listingElem = document.createElement("div");
+    listingElem.classList.add("chat-listing");
+    listingElem.dataset.chatId = chat.chat_id;
+    listingElem.innerHTML = `
+      <img src="${chat.listing_image_url || '/images/default-seller.png'}" alt="Listing" />
+      <div class="chat-details">
+        <span>${chat.listing_title || 'Product'}</span>
+        <span class="price">${chat.listing_price ? '$' + chat.listing_price : ''} - ${chat.sender}</span>
+      </div>
+    `;
+    // When a chat listing is clicked, update the chat box.
+    listingElem.addEventListener("click", async () => {
+      document.querySelectorAll('.chat-listing').forEach(item => item.classList.remove('active'));
+      listingElem.classList.add("active");
+      currentChatId = chat.chat_id;
+
+      // Update chat header with dynamic info.
+      const headerImgSrc = chat.listing_image_url || '/images/default-seller.png';
+      document.querySelector('.chat-header .user-info img').src = headerImgSrc;
+      document.querySelector('.chat-header .user-info span').textContent = chat.sender;
+
+      // Update listing info.
+      const listingImgSrc = chat.listing_image_url || '/images/default-product.png';
+      document.querySelector('.listing-details img').src = listingImgSrc;
+      const titleText = chat.listing_title || 'Product';
+      const priceText = chat.listing_price ? ' - $' + chat.listing_price : '';
+      document.querySelector('.listing-title').textContent = titleText + priceText;
+
+      // Load messages for the selected chat and subscribe to realtime updates.
+      await loadMessages(chat.chat_id);
+      subscribeToMessages(chat.chat_id);
+    });
+    chatListingsContainer.appendChild(listingElem);
+  });
+}
+
+// Message Sending
+async function sendMessage() {
+  const input = document.getElementById('message-input');
+  const messageText = input.value.trim();
+  if (!messageText || !currentChatId) return;
+  const sender = currentUser ? currentUser.name : 'Anonymous';
+  const messagePayload = {
+    chat_id: currentChatId,
+    sender: sender,
+    content: messageText,
+  };
+  const { error } = await supabaseClient
+    .from('messages')
+    .insert([messagePayload]);
+  if (error) {
+    console.error('Error sending message:', error);
+  }
+  input.value = '';
+}
+
 document.getElementById('send-message').addEventListener('click', sendMessage);
 document.getElementById('message-input').addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
@@ -229,5 +191,58 @@ document.getElementById('message-input').addEventListener('keypress', (e) => {
   }
 });
 
-// Start the app once the DOM is fully loaded.
+// Initialization
+async function init() {
+  // Get current logged-in user
+  currentUser = getLoggedInUser();
+  setDefaultChatInfo();
+
+  // Always fetch and display chat listings in the sidebar.
+  const chats = await fetchChatListings();
+  displayChatListings(chats);
+
+  // Get chat ID from URL (if any)
+  const urlParams = new URLSearchParams(window.location.search);
+  const chatIdParam = urlParams.get("chatId");
+
+  if (chatIdParam) {
+    currentChatId = chatIdParam;
+    
+    // Load messages and subscribe for the preselected chat.
+    await loadMessages(chatIdParam);
+    subscribeToMessages(chatIdParam);
+
+    // Fetch chat info from one message (to update the chat header/listing info)
+    const { data: chatInfo, error } = await supabaseClient
+      .from("messages")
+      .select("*")
+      .eq("chat_id", chatIdParam)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .single();
+
+    if (error) {
+      console.error("Error fetching chat info:", error);
+    } else {
+      // Update chat header with dynamic info.
+      document.querySelector('.chat-header .user-info img').src =
+        chatInfo.listing_image_url || '/images/default-seller.png';
+      document.querySelector('.chat-header .user-info span').textContent =
+        chatInfo.sender;
+
+      // Update listing info.
+      document.querySelector('.listing-details img').src =
+        chatInfo.listing_image_url || '/images/default-product.png';
+      document.querySelector('.listing-title').textContent =
+        chatInfo.listing_title + (chatInfo.listing_price ? " - $" + chatInfo.listing_price : "");
+    }
+
+    // Highlight the current chat in the inbox (if it exists)
+    const activeListing = document.querySelector(`.chat-listing[data-chat-id="${chatIdParam}"]`);
+    if (activeListing) {
+      activeListing.classList.add("active");
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', init);

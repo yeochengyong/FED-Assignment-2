@@ -13,7 +13,7 @@
             font-family: 'Lato', sans-serif;
         }
     </style>
-    <header>
+    <header>    
         <div class="header-top">
             <div class="header-top-container">
 
@@ -74,51 +74,37 @@
                     <h3>Inbox</h3>
                 </div>
                 <div id="chat-listings">
-                    <!-- Chat Listings -->
-                    <div class="chat-listing" data-chat-id="chat_1">
-                        <img src="/images/pink stussy.webp" alt="User" />
-                        <div class="chat-details">
-                            <span>Nike Shoes</span>
-                            <span class="price">$50 - john_doe</span>
-                        </div>
-                    </div>
-    
-                    <div class="chat-listing" data-chat-id="chat_2">
-                        <img src="/images/aj1 fragment.webp" alt="User" />
-                        <div class="chat-details">
-                            <span>iPhone 13</span>
-                            <span class="price">$900 - tech_guy</span>
-                        </div>
-                        <img class="listing-img" src="/images/bmw m4.webp" alt="Listing" />
-                    </div>
-                </div>  
+                    <!-- Chat listings will be loaded dynamically here -->
+                </div>
             </div>
     
             <div class="chat-box">
                 <div class="chat-header">
-                    <div class="user-info">
-                        <img src="/images/pink stussy.webp" alt="User" />
-                        <span>john_doe</span>
-                    </div>
+                  <div class="user-info">
+                    <!-- Default image & text; these will be replaced dynamically -->
+                    <img src="/images/default-seller.png" alt="User" />
+                    <span>Select a Chat</span>
+                  </div>
                 </div>
-    
+              
                 <div class="listing-info">
-                    <div class="listing-details">
-                        <img src="/images/aj1 fragment.webp" alt="Listing" />
-                        <span class="listing-title">Nike Shoes - $50</span>
-                    </div>
-                    <button class="make-offer-btn">Make Offer</button>
+                  <div class="listing-details">
+                    <!-- Default listing image & title -->
+                    <img src="/images/default-product.png" alt="Listing" />
+                    <span class="listing-title">No Listing Selected</span>
+                  </div>
+                  <!-- Remove the Make Offer button if not needed -->
                 </div>
-    
+              
                 <div class="chat-messages">
-                    <p>Welcome to MokeSell chat. Select a listing to start messaging.</p>
+                  <p>Welcome to MokeSell chat. Select a listing to start messaging.</p>
                 </div>
-    
+              
                 <div class="chat-input">
-                    <input type="text" id="message-input" placeholder="Type your message..." />
-                    <button id="send-message">Send</button>
+                  <input type="text" id="message-input" placeholder="Type your message..." />
+                  <button id="send-message">Send</button>
                 </div>
-            </div>
+            </div>              
         </div>
     </main>
     <footer>
@@ -143,6 +129,7 @@
         <p>mokesell@gmail.com.sg | +65 8921 2819 | All Rights Reserved</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="chats.js"></script>
 </body>
 </html>

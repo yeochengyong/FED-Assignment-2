@@ -54,5 +54,63 @@ async function fetchProductDetails() {
     }
 }
 
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const chatButton = document.getElementById("chat-button");
+    if (!chatButton) return;
+  
+    chatButton.addEventListener("click", async function () {
+      // Get product ID from URL
+      const productId = getQueryParam("id");
+      if (!productId) {
+        alert("Product not found.");
+        return;
+      }
+  
+      // Get product details from the page.
+      const productTitleElem = document.getElementById("product-title");
+      const productTitle = productTitleElem ? productTitleElem.innerText : "Product";
+      const productPriceElem = document.getElementById("product-price");
+      const productPrice = productPriceElem ? productPriceElem.innerText : "";
+      const productImageElem = document.getElementById("main-product-image");
+      const productImageURL = productImageElem ? productImageElem.src : "";
+  
+      // Get current logged-in user from localStorage.
+      const storedUser = localStorage.getItem("loggedInUser");
+      const currentUser = storedUser ? JSON.parse(storedUser) : null;
+  
+      // Generate a unique chat ID (for example: "chat-<productId>-<timestamp>")
+      const newChatId = "chat-" + productId + "-" + Date.now();
+  
+      // Create an initial message with extra listing details.
+      const initialMessage = {
+        chat_id: newChatId,
+        sender: currentUser ? currentUser.name : "Anonymous",
+        content: "Hi, I have a question about " + productTitle,
+        listing_title: productTitle,
+        listing_price: productPrice,
+        listing_image_url: productImageURL
+      };
+  
+      // Insert the initial message into the "messages" table.
+      const { data, error } = await supabase
+        .from("messages")
+        .insert([initialMessage]);
+  
+      if (error) {
+        console.error("Error initiating chat:", error);
+        alert("Error initiating chat.");
+        return;
+      }
+  
+      // Redirect to chats.html with the new chat id.
+      window.location.href = "/chats.html?chatId=" + encodeURIComponent(newChatId);
+    });
+});
+
 // Load the product details when the page loads
 document.addEventListener("DOMContentLoaded", fetchProductDetails);
