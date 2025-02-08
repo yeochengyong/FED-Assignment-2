@@ -9,45 +9,62 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body>
-    <div class="nav">
-        <div class="nav-logo">
-            <h2>Moke<span>Sell</span></h2>
+    <header>
+        <div class="header-top">
+            <div class="header-top-container">
+
+                <div class="header-contact">
+                    <span>(+65)</span>
+                    <span>Singapore</span>
+                </div>
+                <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
+
+                <a href="/login/login-signup.html" class="header-top-action">Login<i class='bx bx-user'></i></a>
+            </div>
         </div>
 
-        <div class="nav-menu" id="nav-menu">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="/index.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/about.html" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/products.html" class="nav-link">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/list.html" class="nav-link">List</a>
-                </li>
-            </ul>
-            <div class="header-search">
-                <input type="text" placeholder="Search..." class="form-input">
-                <i class='bx bx-search-alt-2' ></i>
+        <div class="nav">
+            <div class="nav-logo">
+                <h2>Moke<span>Sell</span></h2>
             </div>
-            <div class="header-user-actions">
-                <a href="/wishlist.html" class="header-action-btn">
-                    <i class='bx bxs-heart' style="color: red;"></i>
-                    <span class="count">3</span>
-                </a>
-                <a href="/chats.html" class="header-action-btn">
-                    <i class='bx bx-message-square-dots' style="color: white;"></i>
-                    <span class="count">3</span>
-                </a>
-            </div>
-            <div class="header-menu">
-                <i class='bx bx-menu' style="color: white;"></i>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/products.html" class="nav-link">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/list.html" class="nav-link">List</a>
+                    </li>
+                </ul>
+                <div class="header-search" style="position: relative;">
+                    <input type="text" placeholder="Search..." class="form-input" id="search-input">
+                    <i class='bx bx-search-alt-2' id="search-icon"></i>
+                    <!-- Suggestions container -->
+                    <div class="search-suggestions" id="search-suggestions"></div>
+                </div>
+                <div class="header-user-actions">
+                    <a href="wishlist.html" class="header-action-btn">
+                        <i class='bx bxs-heart' style="color: red;"></i>
+                        <span class="count">3</span>
+                    </a>
+                    <a href="chats.html" class="header-action-btn">
+                        <i class='bx bx-message-square-dots' style="color: black;"></i>
+                        <span class="count">3</span>
+                    </a>
+                </div>
+                <div class="header-menu">
+                    <i class='bx bx-menu' style="color: black;"></i>
+                </div>
             </div>
         </div>
-    </div>
+    </header>
     <main>
         <div class="product-container">
             <!-- Left: Product Images -->

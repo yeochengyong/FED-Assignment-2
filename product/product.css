@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=League+Spartan:wght@100..900&display=swap');
 
 /* Universal Styles */
 * {
@@ -8,13 +8,45 @@
     box-sizing: border-box;
     font-family: 'Lato', sans-serif;
 }
-
-/* Nav bar */
 ul{
     list-style: none;
-    }
+}
 a{
     text-decoration: none;
+}
+
+/* Nav bar */
+
+.header-top{
+background-color: #0F2658;
+border-bottom: 1px solid black;
+padding-block: 0.875rem;
+}
+.header-top-container{
+    max-width: 1320px;
+    margin-inline: auto;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header-contact span:first-child{
+    margin-right: 1rem;
+}
+.header-top-action i{
+    position: relative;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    color: #fff;
+}
+.header-contact span,
+.header-motto,
+.header-top-action{
+    font-size: 0.85rem;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: #fff;
 }
 .nav,
 .nav-menu,
@@ -26,13 +58,13 @@ a{
     padding-left: 12px;
 }
 .nav{
-    background-color: #0F2658;
+    background-color: #f1f1f1;
     justify-content: space-between;
     column-gap: 2rem;
     padding: 0.8rem;
 }
 .nav-logo h2 {
-    font-family: 'Fira Sans', sans-serif;
+    font-family: 'Fira rans', sans-serif;
     font-size: 1.7rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -54,7 +86,7 @@ a{
     column-gap: 2.5rem;
 }
 .nav-link{
-    color: #f1f1f1;
+    color: #0F2658;
     font-weight: 550;
     font-family: 'Lato', sans-serif;
     font-size: 14px;
@@ -86,6 +118,37 @@ a{
 .header-search .form-input{
     border: 1px solid black;
 }
+
+.search-suggestions {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: 'Lato', sans-serif;
+    border-radius: 5px;
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
 .active-link,
 .nav-link:hover{
     color: #FD5F5F;
@@ -122,11 +185,11 @@ a{
 }
 
 
+
 /* General Styles */
 body {
     background-color: #f1f1f1;
-    color: #ffffff;
-    font-family: 'Lato', sans-serif;
+    color: #fff;
 }
 
 /* Product Page Layout */
@@ -136,6 +199,8 @@ body {
     display: flex;
     gap: 30px;
     padding: 30px;
+    margin-bottom: 200px;
+    margin-top: 50px;
 }
 
 /* Left: Image Section */
