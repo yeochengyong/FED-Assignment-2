@@ -42,9 +42,11 @@
                         <a href="/list.html" class="nav-link">List</a>
                     </li>
                 </ul>
-                <div class="header-search">
-                    <input type="text" placeholder="Search..." class="form-input">
-                    <i class='bx bx-search-alt-2' ></i>
+                <div class="header-search" style="position: relative;">
+                    <input type="text" placeholder="Search..." class="form-input" id="search-input">
+                    <i class='bx bx-search-alt-2' id="search-icon"></i>
+                    <!-- Suggestions container -->
+                    <div class="search-suggestions" id="search-suggestions"></div>
                 </div>
                 <div class="header-user-actions">
                     <a href="wishlist.html" class="header-action-btn">
@@ -65,93 +67,82 @@
     <main>
         <div class="products-container" id="products-list">
             <h3 class="section-title"><span>Your</span> Likes</h3>
-            <div class="grid" id="products-grid">
-                <div class="product-item">
-                    <div class="product-images">
-                        <img class="product-img" src="/images/airpods pro max.jpg" alt="Product 1">
-                        <div class="overlay">
-                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
-                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
-                        </div>
-                    </div>
-                    <p class="product-category">Electronics</p>
-                    <h4 class="product-title">Wireless Headphones</h4>
-                    <p class="product-price">$79.99</p>
-                </div>
-                <div class="product-item">
-                    <div class="product-images">
-                        <img class="product-img" src="/images/aj1 fragment.webp" alt="Product 2">
-                        <div class="overlay">
-                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
-                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
-                        </div>
-                    </div>
-                    <p class="product-category">Furniture</p>
-                    <h4 class="product-title">Wooden Chair</h4>
-                    <p class="product-price">$49.99</p>
-                </div>
-                <div class="product-item">
-                    <div class="product-images">
-                        <img class="product-img" src="/images/ap watch.webp" alt="Product 3">
-                        <div class="overlay">
-                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
-                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
-                        </div>
-                    </div>
-                    <p class="product-category">Clothing</p>
-                    <h4 class="product-title">Men's Jacket</h4>
-                    <p class="product-price">$89.99</p>
-                </div>
-                <div class="product-item">
-                    <div class="product-images">
-                        <img class="product-img" src="/images/brazil jersey.webp" alt="Product 4">
-                        <div class="overlay">
-                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
-                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
-                        </div>
-                    </div>
-                    <p class="product-category">Gaming</p>
-                    <h4 class="product-title">Gaming Mouse</h4>
-                    <p class="product-price">$39.99</p>
-                </div>
-
+            <div class="grid" id="wishlist-grid">
+                <!-- Wishlist items will be dynamically inserted here -->
             </div>
         </div>
-        <div id="wishlist-message" class="wishlist-message">Item successfully added to Wishlist!</div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
     <script>
-        function addToWishlist(button) {
-            button.classList.toggle("added");
-            const message = document.getElementById("wishlist-message");
-            message.style.display = "block";
-            setTimeout(() => {
-                message.style.display = "none";
-            }, 2000);
+        document.addEventListener("DOMContentLoaded", function () {
+            loadWishlist();
+        });
+    
+        function loadWishlist() {
+            const wishlistGrid = document.getElementById("wishlist-grid");
+            wishlistGrid.innerHTML = "";
             
-            if (button.classList.contains("added")) {
-                button.style.color = "red";
-            } else {
-                button.style.color = "#FD5F5F";
-            }
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+            const fragment = document.createDocumentFragment();
+
+            wishlist.forEach(product => {
+            // Create a container for each wishlist item
+            const productDiv = document.createElement("div");
+            
+            // Set the inner HTML of the productDiv
+            productDiv.innerHTML = `
+                    <div class="product-item">
+                        <div class="product-images">
+                            <img src="${product.image_url}" alt="${product.title}" class="product-img">
+                            <div class="overlay">
+                                <button class="wishlist-btn" onclick="removeFromWishlist('${product.id}')"><i class='bx bxs-heart'></i></button>
+                                <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
+                            </div>
+                            <a href="/product/product.html?id=${product.id}" class="product-link">
+                        </div>
+                        <p class="product-category">${product.category}</p>
+                        <h4 class="product-title">${product.title}</h4>
+                        <p class="product-price">$${product.price}</p>
+                    </div>
+                `;
+                fragment.appendChild(productDiv);
+            });
+            wishlistGrid.appendChild(fragment);
         }
+
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+            wishlist = wishlist.filter(item => item.id !== productId);
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            loadWishlist();
+        }
+
     </script>
     <style>
-        .product-item{
+        .product-item {
             width: 100%;
             max-width: 300px;
             position: relative;
         }
+
         .product-images {
             position: relative;
             overflow: hidden;
             background-color: white;
             transition: background-color 0.3s ease;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        
-        .product-images:hover {
-            background-color: #fff;
+
+        .product-images:hover img {
+            filter: brightness(0.35);
         }
-        
+
         .overlay {
             position: absolute;
             top: 50%;
@@ -163,16 +154,38 @@
             width: 100%;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
-        }
-        
-        .product-images:hover img {
-            filter: brightness(0.3);
-        }
-        .product-images:hover .overlay {
+            pointer-events: none; /* This prevents the overlay from intercepting clicks */
+            }
+
+            .product-images:hover .overlay {
             opacity: 1;
-            pointer-events: auto;
+            }
+
+            .overlay button,
+            .overlay a {
+            pointer-events: auto; /* This enables clicks on the wishlist and chat icons */
+            font-size: 2.2rem;
+            color: #FD5F5F;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            }
+
+            .overlay a {
+            color: #f1f1f1;
+            }
+
+            .overlay button:hover,
+            .overlay a:hover {
+            color: #FF0000;
+            transform: scale(1.1);
+            }
+
+            .overlay a:hover {
+            color: #fff;
         }
-        
+
         .wishlist-btn, .chat-btn {
             font-size: 2.2rem;
             color: #FD5F5F;
@@ -182,17 +195,20 @@
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
         }
-        .chat-btn{
+
+        .chat-btn {
             color: #f1f1f1;
         }
-        
+
         .wishlist-btn:hover, .chat-btn:hover {
-            color: #Ff0000;
+            color: #FF0000;
             transform: scale(1.1);
         }
-        .chat-btn:hover{
+
+        .chat-btn:hover {
             color: #fff;
         }
+
         .wishlist-message {
             display: none;
             position: fixed;
@@ -210,6 +226,59 @@
             z-index: 1000;
         }
     </style>
-    
+    <script>
+        // update log in with account page with sidebar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if a user is logged in (saved in localStorage)
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const headerAction = document.querySelector('.header-top-action');
+        
+            if (loggedInUser && headerAction) {
+                // Parse the stored user data
+                const user = JSON.parse(loggedInUser);
+                
+                // Replace the login link with an account icon
+                headerAction.innerHTML = `<i class='bx bx-user' style="font-size: 24px;"></i>`;
+                headerAction.removeAttribute('href');
+                
+                // When the account icon is clicked, toggle the sidebar
+                headerAction.addEventListener('click', toggleSidebar);
+            
+                // Populate the sidebar with the user's info
+                const userInfoDiv = document.getElementById('user-info');
+                if (userInfoDiv) {
+                    userInfoDiv.innerHTML = `<p><strong>${user.name || 'User'}</strong></p>
+                                            <p>${user.email}</p>`;
+                }
+            } else if (headerAction) {
+                // If no user is logged in, ensure the header only shows "Login"
+                headerAction.innerHTML = 'Login';
+                headerAction.setAttribute('href', '/login/login-signup.html');
+            }
+        
+            // Set up sidebar close button listener
+            const closeSidebarBtn = document.getElementById('close-sidebar');
+            if (closeSidebarBtn) {
+                closeSidebarBtn.addEventListener('click', toggleSidebar);
+            }
+        
+            // Set up log out button listener
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.reload();
+                });
+            }
+        });
+
+        function toggleSidebar() {
+        const sidebar = document.getElementById('account-sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('open');
+        }
+
+        }
+    </script>
 </body>
 </html>

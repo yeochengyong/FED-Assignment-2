@@ -42,9 +42,11 @@
                         <a href="/list.html" class="nav-link">List</a>
                     </li>
                 </ul>
-                <div class="header-search">
-                    <input type="text" placeholder="Search..." class="form-input">
-                    <i class='bx bx-search-alt-2' ></i>
+                <div class="header-search" style="position: relative;">
+                    <input type="text" placeholder="Search..." class="form-input" id="search-input">
+                    <i class='bx bx-search-alt-2' id="search-icon"></i>
+                    <!-- Suggestions container -->
+                    <div class="search-suggestions" id="search-suggestions"></div>
                 </div>
                 <div class="header-user-actions">
                     <a href="wishlist.html" class="header-action-btn">
@@ -155,10 +157,10 @@
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10bXJpbHZneWJpd3lqZ3F0dHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4Mjg4OTEsImV4cCI6MjA1NDQwNDg5MX0.1nfCnZmh0jFR9xttubx5b8iaq7awEYPECXLZJNjpHPg";
 
         // Initialize Supabase
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         document.addEventListener("DOMContentLoaded", async function () {
-            console.log("Supabase Initialized:", supabase);
+            console.log("Supabase Initialized:", supabaseClient);
             await loadFeaturedListings();
         });
 
@@ -172,7 +174,7 @@
             let listings = [];
 
             for (let category of categories) {
-                let { data, error } = await supabase
+                let { data, error } = await supabaseClient
                     .from("listings")
                     .select("*")
                     .eq("category", category)
@@ -191,27 +193,328 @@
             productContainer.innerHTML = ""; // Clear existing listings
 
             listings.forEach(listing => {
-                const listingHTML = `
-                    <div class="product-item">
-                        <div class="product-banner">
-                            <a href="/product/product.html?id=${listing.id}" class="product-images">
-                                <img src="${listing.image_url}" alt="${listing.title}" class="product-img default">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <span class="product-category">${listing.category}</span>
-                            <h3 class="product-title">${listing.title}</h3>
-                            <div class="product-price flex">
-                                <span class="new-price">$${listing.price}</span>
-                            </div>
+            const listingHTML = `
+                <div class="product-item">
+                    <div class="product-images">
+                        <a href="/product/product.html?id=${listing.id}" class="product-link">
+                        <img src="${listing.image_url}" alt="${listing.title}" class="product-img">
+                        </a>
+                        <div class="overlay">
+                        <button class="wishlist-btn" data-product='${JSON.stringify(listing)}' onclick="addToWishlist(this)">
+                            <i class='bx bxs-heart'></i>
+                        </button>
+                        <a href="chats.html" class="chat-btn">
+                            <i class='bx bx-message-square-dots'></i>
+                        </a>
                         </div>
                     </div>
-                `;
-
-                productContainer.innerHTML += listingHTML;
+                    <div class="product-content">
+                        <span class="product-category">${listing.category}</span>
+                        <h4 class="product-title">${listing.title}</h4>
+                        <div class="product-price flex">
+                        <span class="new-price">$${listing.price}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            productContainer.innerHTML += listingHTML;
             });
         }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to the search input and the search icon
+            const searchInput = document.querySelector(".header-search .form-input");
+            const searchIcon = document.querySelector(".header-search i");
+        
+            // When the user presses Enter in the search input, perform the search
+            searchInput.addEventListener("keypress", async function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                await performSearch(searchInput.value.trim());
+            }
+            });
+        
+            // When the search icon is clicked, perform the search
+            searchIcon.addEventListener("click", async function() {
+            await performSearch(searchInput.value.trim());
+            });
+        });
+        
+        async function performSearch(query) {
+            if (!query) return; // If no query, do nothing
+        
+            // Query the "listings" table for a title that matches the query (case-insensitive)
+            const { data, error } = await supabaseClient
+            .from("listings")
+            .select("*")
+            .ilike("title", `%${query}%`)
+            .limit(1); // Limit to one result
+        
+            if (error) {
+            console.error("Error searching listings:", error);
+            alert("Error searching for product.");
+            return;
+            }
+        
+            if (data && data.length > 0) {
+            // Redirect to the product detail page for the first matching listing.
+            window.location.href = `/product/product.html?id=${data[0].id}`;
+            } else {
+            alert("No matching product found.");
+            }
+        }
+
+        // Debounce function to limit how frequently the search query is sent
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+            }
+        }
+        
+        async function fetchSuggestions(query) {
+            if (!query) {
+            suggestionsContainer.innerHTML = "";
+            suggestionsContainer.style.display = "none";
+            return;
+            }
+            // Query the listings table for matching titles (case-insensitive)
+            const { data, error } = await supabaseClient
+            .from("listings")
+            .select("id, title")
+            .ilike("title", `%${query}%`)
+            .limit(5);
+            if (error) {
+            console.error("Error fetching suggestions:", error);
+            return;
+            }
+            suggestionsContainer.innerHTML = "";
+            if (data && data.length > 0) {
+            data.forEach(item => {
+                const suggestionItem = document.createElement("div");
+                suggestionItem.classList.add("suggestion-item");
+                suggestionItem.textContent = item.title;
+                suggestionItem.addEventListener("click", function() {
+                // Redirect to the product detail page when a suggestion is clicked
+                window.location.href = `/product/product.html?id=${item.id}`;
+                });
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+            suggestionsContainer.style.display = "block";
+            } else {
+            suggestionsContainer.style.display = "none";
+            }
+        }
+        
+        const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
+        
+        // Get references to the search input, icon, and suggestions container
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("search-input");
+            const searchIcon = document.getElementById("search-icon");
+            window.suggestionsContainer = document.getElementById("search-suggestions");
+            
+            // When the user types, fetch suggestions
+            searchInput.addEventListener("input", function() {
+            const query = searchInput.value.trim();
+            debouncedFetchSuggestions(query);
+            });
+            
+            searchIcon.addEventListener("click", function() {
+            // hide suggestions if visible.
+            suggestionsContainer.innerHTML = "";
+            suggestionsContainer.style.display = "none";
+            });
+        });
     </script>
-    <script src="script.js"></script>
+    <script>
+        function addToWishlist(button) {
+            const productData = button.getAttribute('data-product');
+            let product = productData ? JSON.parse(productData) : null;
+            if (!product) return;
+
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+            let index = wishlist.findIndex(item => item.id === product.id);
+
+            if (index === -1) {
+                wishlist.push(product);
+                button.classList.add("added");
+                button.style.color = "red";
+            } else {
+                wishlist.splice(index, 1);
+                button.classList.remove("added");
+                button.style.color = "#FD5F5F";
+            }
+
+            // Save the updated wishlist back to localStorage.
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            
+            loadWishlist();
+        }
+
+        function navigateToCategory(categoryPage) {
+            window.location.href = `${categoryPage}`;
+        }
+
+        // update log in with account page with sidebar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if a user is logged in (saved in localStorage)
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const headerAction = document.querySelector('.header-top-action');
+        
+            if (loggedInUser && headerAction) {
+                // Parse the stored user data
+                const user = JSON.parse(loggedInUser);
+                
+                // Replace the login link with an account icon
+                headerAction.innerHTML = `<i class='bx bx-user' style="font-size: 24px;"></i>`;
+                headerAction.removeAttribute('href');
+                
+                // When the account icon is clicked, toggle the sidebar
+                headerAction.addEventListener('click', toggleSidebar);
+            
+                // Populate the sidebar with the user's info
+                const userInfoDiv = document.getElementById('user-info');
+                if (userInfoDiv) {
+                    userInfoDiv.innerHTML = `<p><strong>${user.name || 'User'}</strong></p>
+                                            <p>${user.email}</p>`;
+                }
+            } else if (headerAction) {
+                // If no user is logged in, ensure the header only shows "Login"
+                headerAction.innerHTML = 'Login';
+                headerAction.setAttribute('href', '/login/login-signup.html');
+            }
+        
+            // Set up sidebar close button listener
+            const closeSidebarBtn = document.getElementById('close-sidebar');
+            if (closeSidebarBtn) {
+                closeSidebarBtn.addEventListener('click', toggleSidebar);
+            }
+        
+            // Set up log out button listener
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.reload();
+                });
+            }
+        });
+
+        function toggleSidebar() {
+        const sidebar = document.getElementById('account-sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('open');
+        }
+
+        }
+    </script>
+    <style>
+        .product-item {
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+        }
+
+        .product-images {
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-images:hover img {
+            filter: brightness(0.35);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none; /* This prevents the overlay from intercepting clicks */
+            }
+
+            .product-images:hover .overlay {
+            opacity: 1;
+            }
+
+            .overlay button,
+            .overlay a {
+            pointer-events: auto; /* This enables clicks on the wishlist and chat icons */
+            font-size: 2.2rem;
+            color: #FD5F5F;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            }
+
+            .overlay a {
+            color: #f1f1f1;
+            }
+
+            .overlay button:hover,
+            .overlay a:hover {
+            color: #FF0000;
+            transform: scale(1.1);
+            }
+
+            .overlay a:hover {
+            color: #fff;
+        }
+
+        .wishlist-btn, .chat-btn {
+            font-size: 2.2rem;
+            color: #FD5F5F;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .chat-btn {
+            color: #f1f1f1;
+        }
+
+        .wishlist-btn:hover, .chat-btn:hover {
+            color: #FF0000;
+            transform: scale(1.1);
+        }
+
+        .chat-btn:hover {
+            color: #fff;
+        }
+
+        .wishlist-message {
+            display: none;
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            letter-spacing: 0.9px;
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            z-index: 1000;
+        }
+    </style>
 </body>
 </html>

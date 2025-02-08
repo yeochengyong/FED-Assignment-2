@@ -1,151 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Electronics</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" />
+    <style>
+        .product-item {
+        width: 100%;
+        max-width: 300px;
+        height: 100%;
+        position: relative;
+        text-decoration: none;
+        color: inherit;
+        }
+
+        .product-images {
+        position: relative;
+        overflow: hidden;
+        background-color: white;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .product-images img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: filter 0.3s ease;
+        }
+
+        .product-images:hover img {
+        filter: brightness(0.35);
+        }
+
+        .overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none; /* Disable overlay pointer events */
+        }
+
+        .product-images:hover .overlay {
+        opacity: 1;
+        }
+
+        /* Enable pointer events on the wishlist and chat buttons */
+        .overlay button,
+        .overlay a {
+        pointer-events: auto;
+        font-size: 2.2rem;
+        color: #FD5F5F;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+        }
+
+        .overlay a {
+        color: #f1f1f1;
+        }
+
+        .overlay button:hover,
+        .overlay a:hover {
+        color: #FF0000;
+        transform: scale(1.1);
+        }
+
+        .overlay a:hover {
+        color: #fff;
+        }
+
+        .product-content {
+        padding: 10px 0;
+        text-align: center;
+        }
+
+        .product-category {
+        font-size: 0.9rem;
+        color: #555;
+        }
+
+        .product-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin: 5px 0;
+        }
+
+        .product-price .new-price {
+        font-size: 1rem;
+        color: #0F2658;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-top">
-            <div class="header-top-container">
-
-                <div class="header-contact">
-                    <span>(+65)</span>
-                    <span>Singapore</span>
-                </div>
-                <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
-
-                <a href="/login/login-signup.html" class="header-top-action">Login<i class='bx bx-user' ></i></a>
+        <div class="header-top-container">
+            <div class="header-contact">
+            <span>(+65)</span>
+            <span>Singapore</span>
+            </div>
+            <p class="header-motto">Shop Smart, Live Better - Your Trusted Online Marketplace!</p>
+            <a href="/login/login-signup.html" class="header-top-action">
+            Login<i class='bx bx-user'></i>
+            </a>
+        </div>
+        </div>
+        <div class="nav">
+        <div class="nav-logo">
+            <h2>Moke<span>Sell</span></h2>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+            <ul class="nav-list">
+            <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="/products.html" class="nav-link">Products</a></li>
+            <li class="nav-item"><a href="/list.html" class="nav-link">List</a></li>
+            </ul>
+            <div class="header-search" style="position: relative;">
+                <input type="text" placeholder="Search..." class="form-input" id="search-input">
+                <i class='bx bx-search-alt-2' id="search-icon"></i>
+                <!-- Suggestions container -->
+                <div class="search-suggestions" id="search-suggestions"></div>
+            </div>
+            <div class="header-user-actions">
+            <a href="wishlist.html" class="header-action-btn">
+                <i class='bx bxs-heart' style="color: red;"></i>
+                <span class="count">3</span>
+            </a>
+            <a href="chats.html" class="header-action-btn">
+                <i class='bx bx-message-square-dots' style="color: black;"></i>
+                <span class="count">3</span>
+            </a>
+            </div>
+            <div class="header-menu">
+            <i class='bx bx-menu'></i>
             </div>
         </div>
-
-        <div class="nav">
-            <div class="nav-logo">
-                <h2>Moke<span>Sell</span></h2>
-            </div>
-
-            <div class="nav-menu" id="nav-menu">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="/index.html" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/about.html" class="nav-link">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/products.html" class="nav-link">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/list.html" class="nav-link">List</a>
-                    </li>
-                </ul>
-                <div class="header-search">
-                    <input type="text" placeholder="Search..." class="form-input">
-                    <i class='bx bx-search-alt-2' ></i>
-                </div>
-                <div class="header-user-actions">
-                    <a href="wishlist.html" class="header-action-btn">
-                        <i class='bx bxs-heart' style="color: red;"></i>
-                        <span class="count">3</span>
-                    </a>
-                    <a href="chats.html" class="header-action-btn">
-                        <i class='bx bx-message-square-dots' style="color: black;"></i>
-                        <span class="count">3</span>
-                    </a>
-                </div>
-                <div class="header-menu">
-                    <i class='bx bx-menu'></i>
-                </div>
-            </div>
         </div>
     </header>
+
+    <!-- Main Content -->
     <main>
+        <h3 class="section-title"><span>All</span> Electronics</h3>
         <div class="products-container" id="products-list">
-            <h3 class="section-title"><span>All</span> Electronics</h3>
-            <div class="grid" id="products-grid">
-              <!-- Listings will be injected here dynamically -->
-            </div>
+        <div class="grid" id="products-grid">
+            <!-- Clothing listings will be dynamically injected here -->
+        </div>
         </div>
     </main>
     <footer>
         <div class="waves">
-            <div class="wave" id="wave1"></div>
-            <div class="wave" id="wave2"></div>
-            <div class="wave" id="wave3"></div>
-            <div class="wave" id="wave4"></div>
+        <div class="wave" id="wave1"></div>
+        <div class="wave" id="wave2"></div>
+        <div class="wave" id="wave3"></div>
+        <div class="wave" id="wave4"></div>
         </div>
         <ul class="social-icons">
-            <li><a href="#"><i class='bx bxl-instagram-alt'></i></a></li>
-            <li><a href="#"><i class='bx bxl-twitter'></i></a></li>
-            <li><a href="#"><i class='bx bxl-facebook'></i></a></li>
-            <li><a href="#"><i class='bx bxl-linkedin-square'></i></a></li>
+        <li><a href="#"><i class='bx bxl-instagram-alt'></i></a></li>
+        <li><a href="#"><i class='bx bxl-twitter'></i></a></li>
+        <li><a href="#"><i class='bx bxl-facebook'></i></a></li>
+        <li><a href="#"><i class='bx bxl-linkedin-square'></i></a></li>
         </ul>
         <ul class="menu">
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/about.html">About</a></li>
-            <li><a href="/products.html">Products</a></li>
-            <li><a href="/list.html">List</a></li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/products.html">Products</a></li>
+        <li><a href="/list.html">List</a></li>
         </ul>
         <p>mokesell@gmail.com.sg | +65 8921 2819 | All Rights Reserved</p>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const SUPABASE_URL = 'https://mtmrilvgybiwyjgqttqr.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10bXJpbHZneWJpd3lqZ3F0dHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4Mjg4OTEsImV4cCI6MjA1NDQwNDg5MX0.1nfCnZmh0jFR9xttubx5b8iaq7awEYPECXLZJNjpHPg';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Fetch listings with category "Sneakers"
-        async function fetchElectronicListings() {
-            const { data, error } = await supabaseClient
+    <!-- Supabase & Other Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+    <script>
+        // Fetch clothing listings from Supabase
+        async function fetchElectronicsListings() {
+        const { data, error } = await supabaseClient
             .from('listings')
             .select('*')
             .eq('category', 'Electronics')
             .order('created_at', { ascending: false });
-            if (error) {
-            console.error('Error fetching electronic listings:', error);
+        if (error) {
+            console.error('Error fetching electronics listings:', error);
             return [];
-            }
-            return data;
+        }
+        return data;
         }
 
-        // Display each listing as a clickable product item.
+        // Display clothing listings with overlay (including wishlist and chat buttons)
         function displayListings(listings) {
-            const gridContainer = document.querySelector('.grid');
-            gridContainer.innerHTML = ""; // Clear any placeholder text
+        const gridContainer = document.getElementById('products-grid');
+        gridContainer.innerHTML = ""; // Clear any placeholder text
 
-            listings.forEach(listing => {
-            // Create an anchor that links to product.html with the listing id as a query parameter.
+        listings.forEach(listing => {
+            // Create an anchor element to wrap the listing so that the entire listing is clickable
             const anchor = document.createElement('a');
-            anchor.href = `/product/product.html?id=${listing.id}`;
-            anchor.classList.add('product-item');
-
-            // Create inner HTML similar to your featured listings.
+            // Build the inner HTML for the product listing
             anchor.innerHTML = `
-                <div class="product-banner">
-                <div class="product-images">
-                    <img src="${listing.image_url}" alt="${listing.title}" class="product-img default">
-                </div>
-                </div>
-                <div class="product-content">
-                <span class="product-category">${listing.category}</span>
-                <h3 class="product-title">${listing.title}</h3>
-                <div class="product-price flex">
-                    <span class="new-price">$${listing.price}</span>
-                </div>
+                <div class="product-item">
+                    <div class="product-images">
+                        <a href="/product/product.html?id=${listing.id}" class="product-link">
+                        <img src="${listing.image_url}" alt="${listing.title}" class="product-img">
+                        </a>
+                        <div class="overlay">
+                        <button class="wishlist-btn" data-product='${JSON.stringify(listing)}' onclick="addToWishlist(this)">
+                            <i class='bx bxs-heart'></i>
+                        </button>
+                        <a href="chats.html" class="chat-btn">
+                            <i class='bx bx-message-square-dots'></i>
+                        </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">${listing.category}</span>
+                        <h4 class="product-title">${listing.title}</h4>
+                        <div class="product-price flex">
+                        <span class="new-price">$${listing.price}</span>
+                        </div>
+                    </div>
                 </div>
             `;
             gridContainer.appendChild(anchor);
             });
         }
 
+        // On page load, fetch and display clothing listings
         document.addEventListener('DOMContentLoaded', async () => {
-            const electronicListings = await fetchElectronicListings();
-            displayListings(electronicListings);
+            const listings = await fetchElectronicsListings();
+            displayListings(listings);
         });
+
+        function addToWishlist(button) {
+            const productData = button.getAttribute('data-product');
+            let product = productData ? JSON.parse(productData) : null;
+            if (!product) return;
+
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+            let index = wishlist.findIndex(item => item.id === product.id);
+
+            if (index === -1) {
+                wishlist.push(product);
+                button.classList.add("added");
+                button.style.color = "red";
+            } else {
+                wishlist.splice(index, 1);
+                button.classList.remove("added");
+                button.style.color = "#FD5F5F";
+            }
+
+            // Save the updated wishlist back to localStorage.
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        }
     </script>
-    <script src="script.js"></script>
+    <script>
+        // update log in with account page with sidebar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if a user is logged in (saved in localStorage)
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const headerAction = document.querySelector('.header-top-action');
+        
+            if (loggedInUser && headerAction) {
+                // Parse the stored user data
+                const user = JSON.parse(loggedInUser);
+                
+                // Replace the login link with an account icon
+                headerAction.innerHTML = `<i class='bx bx-user' style="font-size: 24px;"></i>`;
+                headerAction.removeAttribute('href');
+                
+                // When the account icon is clicked, toggle the sidebar
+                headerAction.addEventListener('click', toggleSidebar);
+            
+                // Populate the sidebar with the user's info
+                const userInfoDiv = document.getElementById('user-info');
+                if (userInfoDiv) {
+                    userInfoDiv.innerHTML = `<p><strong>${user.name || 'User'}</strong></p>
+                                            <p>${user.email}</p>`;
+                }
+            } else if (headerAction) {
+                // If no user is logged in, ensure the header only shows "Login"
+                headerAction.innerHTML = 'Login';
+                headerAction.setAttribute('href', '/login/login-signup.html');
+            }
+        
+            // Set up sidebar close button listener
+            const closeSidebarBtn = document.getElementById('close-sidebar');
+            if (closeSidebarBtn) {
+                closeSidebarBtn.addEventListener('click', toggleSidebar);
+            }
+        
+            // Set up log out button listener
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.reload();
+                });
+            }
+        });
+
+        function toggleSidebar() {
+        const sidebar = document.getElementById('account-sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('open');
+        }
+
+        }
+    </script>
 </body>
 </html>
