@@ -77,19 +77,19 @@
                 </div>
                 <h3 class="category-title">Clothing</h3>
             </div>
-            <div class="category-item" onclick="navigateToCategory('watches.html')">
+            <div class="category-item" onclick="navigateToCategory('electronics.html')">
                 <div class="category-image-container">
                     <img src="/images/iphone 16.webp" alt="Watches" class="category-img">
                 </div>
                 <h3 class="category-title">Electronics</h3>
             </div>
-            <div class="category-item" onclick="navigateToCategory('audio-devices.html')">
+            <div class="category-item" onclick="navigateToCategory('watches.html')">
                 <div class="category-image-container">
                     <img src="/images/ap watch.webp" alt="Audio Devices" class="category-img">
                 </div>
                 <h3 class="category-title">Watches</h3>
             </div>
-            <div class="category-item" onclick="navigateToCategory('electronics.html')">
+            <div class="category-item" onclick="navigateToCategory('fragrance.html')">
                 <div class="category-image-container">
                     <img src="/images/jpg lmlp.webp" alt="Electronics" class="category-img">
                 </div>
@@ -113,18 +113,18 @@
                 </div>
             </div>
         </div>
+        <!-- Account Sidebar (initially hidden) -->
+        <div id="account-sidebar" class="account-sidebar">
+            <div class="sidebar-content">
+            <span id="close-sidebar" class="close-sidebar">&times;</span>
+            <h3>Account Info</h3>
+            <div id="user-info">
+                <!-- This will be populated with the user's name and email -->
+            </div>
+            <button id="logout-btn" class="logout-btn">Log Out</button>
+            </div>
+        </div>
     </main>
-    <!-- Account Sidebar (initially hidden) -->
-    <div id="account-sidebar" class="account-sidebar">
-        <div class="sidebar-content">
-        <span id="close-sidebar" class="close-sidebar">&times;</span>
-        <h3>Account Info</h3>
-        <div id="user-info">
-            <!-- This will be populated with the user's name and email -->
-        </div>
-        <button id="logout-btn" class="logout-btn">Log Out</button>
-        </div>
-    </div>
     <footer>
         <div class="waves">
             <div class="wave" id="wave1"></div>
@@ -146,6 +146,7 @@
         </ul>
         <p>mokesell@gmail.com.sg | +65 8921 2819 | All Rights Reserved</p>
     </footer>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
