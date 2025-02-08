@@ -777,6 +777,7 @@ word-wrap: break-word;
 }
 /* Footer */
 footer{
+    font-family: 'Lato', sans-serif;
     position: relative;
     width: 100%;
     background: #143F9A;

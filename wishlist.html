@@ -62,5 +62,154 @@
             </div>
         </div>
     </header>
+    <main>
+        <div class="products-container" id="products-list">
+            <h3 class="section-title"><span>Your</span> Likes</h3>
+            <div class="grid" id="products-grid">
+                <div class="product-item">
+                    <div class="product-images">
+                        <img class="product-img" src="/images/airpods pro max.jpg" alt="Product 1">
+                        <div class="overlay">
+                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
+                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
+                        </div>
+                    </div>
+                    <p class="product-category">Electronics</p>
+                    <h4 class="product-title">Wireless Headphones</h4>
+                    <p class="product-price">$79.99</p>
+                </div>
+                <div class="product-item">
+                    <div class="product-images">
+                        <img class="product-img" src="/images/aj1 fragment.webp" alt="Product 2">
+                        <div class="overlay">
+                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
+                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
+                        </div>
+                    </div>
+                    <p class="product-category">Furniture</p>
+                    <h4 class="product-title">Wooden Chair</h4>
+                    <p class="product-price">$49.99</p>
+                </div>
+                <div class="product-item">
+                    <div class="product-images">
+                        <img class="product-img" src="/images/ap watch.webp" alt="Product 3">
+                        <div class="overlay">
+                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
+                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
+                        </div>
+                    </div>
+                    <p class="product-category">Clothing</p>
+                    <h4 class="product-title">Men's Jacket</h4>
+                    <p class="product-price">$89.99</p>
+                </div>
+                <div class="product-item">
+                    <div class="product-images">
+                        <img class="product-img" src="/images/brazil jersey.webp" alt="Product 4">
+                        <div class="overlay">
+                            <button class="wishlist-btn" onclick="addToWishlist(this)"><i class='bx bxs-heart'></i></button>
+                            <a href="chats.html" class="chat-btn"><i class='bx bx-message-square-dots'></i></a>
+                        </div>
+                    </div>
+                    <p class="product-category">Gaming</p>
+                    <h4 class="product-title">Gaming Mouse</h4>
+                    <p class="product-price">$39.99</p>
+                </div>
+
+            </div>
+        </div>
+        <div id="wishlist-message" class="wishlist-message">Item successfully added to Wishlist!</div>
+    </main>
+    <script>
+        function addToWishlist(button) {
+            button.classList.toggle("added");
+            const message = document.getElementById("wishlist-message");
+            message.style.display = "block";
+            setTimeout(() => {
+                message.style.display = "none";
+            }, 2000);
+            
+            if (button.classList.contains("added")) {
+                button.style.color = "red";
+            } else {
+                button.style.color = "#FD5F5F";
+            }
+        }
+    </script>
+    <style>
+        .product-item{
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+        }
+        .product-images {
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .product-images:hover {
+            background-color: #fff;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .product-images:hover img {
+            filter: brightness(0.3);
+        }
+        .product-images:hover .overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .wishlist-btn, .chat-btn {
+            font-size: 2.2rem;
+            color: #FD5F5F;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .chat-btn{
+            color: #f1f1f1;
+        }
+        
+        .wishlist-btn:hover, .chat-btn:hover {
+            color: #Ff0000;
+            transform: scale(1.1);
+        }
+        .chat-btn:hover{
+            color: #fff;
+        }
+        .wishlist-message {
+            display: none;
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            letter-spacing: 0.9px;
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            z-index: 1000;
+        }
+    </style>
+    
 </body>
 </html>
