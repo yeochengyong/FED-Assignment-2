@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
+    <title>Test</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
 </head>
@@ -49,11 +49,11 @@
                     <div class="search-suggestions" id="search-suggestions"></div>
                 </div>
                 <div class="header-user-actions">
-                    <a href="wishlist.html" class="header-action-btn">
+                    <a href="/wishlist.html" class="header-action-btn">
                         <i class='bx bxs-heart' style="color: red;"></i>
                         <span class="count">3</span>
                     </a>
-                    <a href="chats.html" class="header-action-btn">
+                    <a href="/chats.html" class="header-action-btn">
                         <i class='bx bx-message-square-dots' style="color: black;"></i>
                         <span class="count">3</span>
                     </a>
@@ -100,17 +100,27 @@
         </div>
         <div class="products-container" id="products-list">
             <div class="tab-btns">
-                <span class="tab-btn">Featured</span>
-                <span class="tab-btn">Trending</span>
-                <span class="tab-btn">Latest</span>
+                <span class="tab-btn active-tab" onclick="switchTab('featured', this)">Featured</span>
+                <span class="tab-btn" onclick="switchTab('trending', this)">Trending</span>
+                <span class="tab-btn" onclick="switchTab('latest', this)">Latest</span>
             </div>
             <div class="tab-items">
-                <div class="tab-item active-tab">
-                    <div class="products-container">
-                        <h3 class="section-title"><span>Featured</span> Listings</h3>
-                        <div class="grid"> 
-                            <!-- Listings will be dynamically inserted here -->
-                        </div>
+                <div class="tab-item active-tab" id="featured-listings">
+                    <h3 class="section-title"><span>Featured</span> Listings</h3>
+                    <div class="grid" id="featured-grid">
+                        <!-- Featured Listings will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="tab-item" id="trending-listings">
+                    <h3 class="section-title"><span>Trending</span> Listings</h3>
+                    <div class="grid" id="trending-grid">
+                        <!-- Trending Listings will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="tab-item" id="latest-listings">
+                    <h3 class="section-title"><span>Latest</span> Listings</h3>
+                    <div class="grid" id="latest-grid">
+                        <!-- Latest Listings will be dynamically inserted here -->
                     </div>
                 </div>
             </div>
@@ -159,9 +169,20 @@
         // Initialize Supabase
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        async function switchTab(tab, button) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+                button.classList.add('active-tab');
+                
+                document.getElementById('featured-listings').style.display = tab === 'featured' ? 'block' : 'none';
+                document.getElementById('trending-listings').style.display = tab === 'trending' ? 'block' : 'none';
+                document.getElementById('latest-listings').style.display = tab === 'latest' ? 'block' : 'none';
+            }
+        
         document.addEventListener("DOMContentLoaded", async function () {
             console.log("Supabase Initialized:", supabaseClient);
             await loadFeaturedListings();
+            await loadTrendingListings();
+            await loadLatestListings();
         });
 
         async function loadFeaturedListings() {
@@ -218,6 +239,86 @@
                 </div>
             `;
             productContainer.innerHTML += listingHTML;
+            });
+        }
+
+        async function loadTrendingListings() {
+            const trendingContainer = document.getElementById('trending-grid');
+            if (!trendingContainer) return;
+    
+            let { data, error } = await supabaseClient.from("listings").select("*").order("created_at", { ascending: true }).limit(4);
+    
+            if (error) {
+                console.error("Error fetching trending listings:", error);
+                return;
+            }
+    
+            trendingContainer.innerHTML = "";
+            data.forEach(listing => {
+                const listingHTML = `
+                    <div class="product-item">
+                        <div class="product-images">
+                            <a href="/product/product.html?id=${listing.id}" class="product-link">
+                                <img src="${listing.image_url}" alt="${listing.title}" class="product-img">
+                            </a>
+                            <div class="overlay">
+                                <button class="wishlist-btn" data-product='${JSON.stringify(listing)}' onclick="addToWishlist(this)">
+                                    <i class='bx bxs-heart'></i>
+                                </button>
+                                <a href="chats.html" class="chat-btn">
+                                    <i class='bx bx-message-square-dots'></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <span class="product-category">${listing.category}</span>
+                            <h4 class="product-title">${listing.title}</h4>
+                            <div class="product-price flex">
+                                <span class="new-price">$${listing.price}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                trendingContainer.innerHTML += listingHTML;
+            });
+        }
+
+        async function loadLatestListings() {
+            const latestContainer = document.getElementById('latest-grid');
+            if (!latestContainer) return;
+    
+            let { data, error } = await supabaseClient.from("listings").select("*").order("created_at", { ascending: false }).limit(4);
+    
+            if (error) {
+                console.error("Error fetching latest listings:", error);
+                return;
+            }
+    
+            latestContainer.innerHTML = "";
+            data.forEach(listing => {
+                const listingHTML = `
+                    <div class="product-item">
+                        <div class="product-images">
+                            <a href="/product/product.html?id=${listing.id}" class="product-link">
+                                <img src="${listing.image_url}" alt="${listing.title}" class="product-img">
+                            </a>
+                            <div class="overlay">
+                                <button class="wishlist-btn" data-product='${JSON.stringify(listing)}' onclick="addToWishlist(this)">
+                                    <i class='bx bxs-heart'></i>
+                                </button>
+                                <a href="chats.html" class="chat-btn">
+                                    <i class='bx bx-message-square-dots'></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <span class="product-category">${listing.category}</span>
+                            <h4 class="product-title">${listing.title}</h4>
+                            <div class="product-price flex">
+                                <span class="new-price">$${listing.price}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                latestContainer.innerHTML += listingHTML;
             });
         }
         
@@ -515,6 +616,36 @@
             font-weight: bold;
             z-index: 1000;
         }
+    </style>
+    <style>
+        .tab-btn {
+            background-color: #0F2658;
+            color: #fff;
+            padding: 1rem 1.25rem 0.875rem;
+            border-radius: 0.25rem;
+            border: 1px solid #0F2658;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 100px;
+        }
+    
+        .tab-btn.active-tab, .tab-btn:hover {
+            background-color: #fff;
+            color: #0F2658;
+        }
+    
+        .tab-item {
+            display: none;
+        }
+    
+        .tab-item.active-tab {
+            display: block;
+        }
+    
     </style>
 </body>
 </html>
