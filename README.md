@@ -2,22 +2,39 @@
 
 ## About the Project
 
-Our project is to create an online eCommerce platform called "MokeSell" that allows users to buy and sell new and second-hand products.
+MokeSell is an innovative online eCommerce platform designed to facilitate the buying and selling of both new and second-hand goods. Developed as part of our Front-End Development Assignment, this platform aims to create a seamless and user-friendly experience for individuals looking to trade items online.
 
-The features we plan to implement are:
-- Account creation and login feature that allows users to create an account and log into the platform.
-- Create listings feature that allows users to create listing by selecting which category their product is in, upload prodcut photos, providing product details.
-- Detailed listing viewing enabled by dynamic product pages and usage of database and APIs.
-- Search and like feature, allowing buyers to search for specific items using keywords, and allowing buyers to save listings by liking them.
-- Chat Feature, where buyers can start a chat with sellers to discuss transaction details, right from the detailed listing page.
+With a focus on functionality and ease of use, MokeSell integrates essential eCommerce features while leveraging modern web technologies and APIs to enhance interactivity and efficiency. Our goal is to provide users with an intuitive interface where they can effortlessly create product listings, browse items, communicate with sellers, and manage transactions—all within a single platform.
 
+## Key Features
+1. User Authentication & Account Management
+Users can sign up and create an account using their email and password.
+Secure login/logout functionality ensures user authentication and account safety.
+Profile management features allow users to update their details.
+2. Product Listings & Categorization
+Users can create listings by selecting product categories, uploading images, and providing detailed descriptions.
+Listings are dynamically categorized for easy navigation.
+Each listing is displayed on an interactive product page that fetches details dynamically from the database.
+3. Search & Favorite Listings
+Buyers can search for specific items using keywords and filters.
+A "Like" feature allows users to save and revisit their favorite listings.
+4. Interactive Chat System
+Buyers can initiate real-time chats with sellers directly from the product listing page.
+Enables seamless communication between users to discuss product details, pricing, and transaction arrangements.
+5. Dynamic Product Pages & Database Integration
+Each product listing is displayed on a dynamically generated page using data fetched from a structured database.
+APIs handle real-time updates, ensuring accurate listing details and availability.
+APIs & Technologies Used
+To enhance functionality and streamline user experience, we have integrated the following technologies:
 
 ## APIs
-- Made the account signup/login feature working using supabase api to create a database to store and fetch user's name, email and password.
-- Made the listings displayed in the products, sorted by their respective categories. Each listing's individual details are displayed dynamically using one product.html page, fetched from the database listings table when called.
-- Made the chat function allowing users to communicate in real time with sellers / other users.
+# - Supabase API: Utilized for user authentication, managing signups, logins, and secure storage of user credentials.
+# - Database & Listings Management: Listings are stored in a structured database and dynamically fetched to populate the product pages, categorized efficiently for easy browsing.
+# - Chat Functionality: Enables real-time communication between buyers and sellers, improving transaction coordination and engagement.
 
-### Built With
+Our implementation ensures a smooth and responsive user experience, combining robust front-end development practices with backend database management to create a fully functional and scalable online marketplace.
+
+
 
 - [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
